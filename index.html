@@ -2,31 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oliver Fang - Sales Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
+            color: #333;
+        }
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .card h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .card p {
+            margin: 10px 0;
+            color: #555;
+        }
+        .card a {
+            text-decoration: none;
+            color: #FF6F61;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .social-icons a {
+            margin: 0 10px;
+        }
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.2s;
+        }
+        .social-icons img:hover {
+            transform: scale(1.2);
+        }
+        .download-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #FF6F61;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .download-button:hover {
+            background-color: #E55C50;
+        }
+    </style>
 </head>
 <body>
-    <h1>Oliver Fang</h1>
-    <p>Sales Manager | DJA Tech</p>
-    <p>Reliable PoE Switch Solutions for Smart Buildings & Surveillance.</p>
+    <div class="card">
+        <h1>Oliver Fang</h1>
+        <p>Sales Manager</p>
+        <p>DJA: PoE switch brand by Dijjean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
+        <p><strong>📞 Phone:</strong> +1 281 783 9998</p>
+        <p><strong>📧 Email:</strong> <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
+        <p><strong>🏢 Company:</strong> Shen Zhen Dijjean Technology Co., Ltd</p>
 
-    <!-- 联系方式 -->
-    <p>
-        📧 Email: <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a><br>
-        📞 Phone: +1 281 783 9998<br>
-        🌐 Website: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a>
-    </p>
+        <div class="social-icons">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/12817839998" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+            </a>
+        </div>
 
-    <!-- 图标跳转 -->
-    <p>
-        <!-- WhatsApp -->
-        <a href="https://wa.me/12817839998" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" width="50" height="50">
-        </a>
-
-        <!-- LinkedIn -->
-        <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="50" height="50">
-        </a>
-    </p>
+        <a href="mailto:oliveroogle@gmail.com?subject=Download%20vCard" class="download-button">DOWNLOAD VCARD</a>
+    </div>
 </body>
 </html>
