@@ -44,7 +44,7 @@
             margin: 20px 0;
         }
         .social-icons a {
-            margin: 0 10px;
+            margin: 0 15px;
         }
         .social-icons img {
             width: 40px;
@@ -59,14 +59,16 @@
             margin-top: 20px;
             padding: 10px 20px;
             background-color: #FF6F61;
-            color: #fff;
+            color: #FFFFFF; /* 修复按钮文字颜色 */
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            transition: background-color 0.2s;
+            font-size: 16px;
+            transition: background-color 0.2s, color 0.2s;
         }
         .download-button:hover {
             background-color: #E55C50;
+            color: #FFFFFF;
         }
     </style>
 </head>
@@ -82,7 +84,7 @@
         <div class="social-icons">
             <!-- WhatsApp -->
             <a href="https://wa.me/12817839998" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
             </a>
             <!-- LinkedIn -->
             <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
@@ -90,7 +92,9 @@
             </a>
         </div>
 
-        <a href="mailto:oliveroogle@gmail.com?subject=Download%20vCard" class="download-button">DOWNLOAD VCARD</a>
+        <a href="mailto:oliveroogle@gmail.com?subject=Download%20vCard" class="download-button">
+            DOWNLOAD VCARD
+        </a>
     </div>
 </body>
 </html>
