@@ -41,6 +41,19 @@
             color: #FF6F61;
         }
 
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px 0;
+            gap: 10px;
+        }
+
+        .contact-item img {
+            width: 20px;
+            height: 20px;
+        }
+
         .social-icons {
             display: flex;
             justify-content: center;
@@ -130,9 +143,24 @@
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-        <p><strong>📞 Phone:</strong> +1 281 783 9998</p>
-        <p><strong>📧 Email:</strong> <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
-        <p><strong>🏢 Company:</strong> Shen Zhen Dijiean Technology Co., Ltd</p>
+        
+        <!-- Phone -->
+        <div class="contact-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Phone_icon_green.svg" alt="Phone">
+            <p><strong>+1 281 783 9998</strong></p>
+        </div>
+
+        <!-- Email -->
+        <div class="contact-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Email_icon.svg" alt="Email">
+            <p><a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
+        </div>
+
+        <!-- Company -->
+        <div class="contact-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Office_building_icon.svg" alt="Company">
+            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
+        </div>
 
         <!-- Social Icons -->
         <div class="social-icons">
@@ -189,14 +217,13 @@
 
         // Save to phone action
         savePhoneBtn.addEventListener("click", () => {
-            // Trigger download of vCard file
             const link = document.createElement("a");
             link.href = "path-to-your-vcard-file.vcf"; // Replace with your vCard file URL
             link.download = "Oliver_Fang.vcf";
             link.click();
         });
 
-        // Close modal when clicking outside of the modal content
+        // Close modal when clicking outside
         window.addEventListener("click", (event) => {
             if (event.target === modal) {
                 modal.style.display = "none";
