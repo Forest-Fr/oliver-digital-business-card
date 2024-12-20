@@ -41,6 +41,19 @@
             color: #FF6F61;
         }
 
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
         .download-button {
             display: inline-block;
             margin-top: 20px;
@@ -52,11 +65,13 @@
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            border: 2px solid #FF6F61; /* 边框颜色与按钮背景一致 */
+            transition: background-color 0.2s, border-color 0.2s;
         }
 
         .download-button:hover {
             background-color: #E55C50;
+            border-color: #E55C50; /* 悬停时边框颜色改变 */
         }
 
         /* Modal styles */
@@ -118,6 +133,18 @@
         <p><strong>📞 Phone:</strong> +1 281 783 9998</p>
         <p><strong>📧 Email:</strong> <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
         <p><strong>🏢 Company:</strong> Shen Zhen Dijiean Technology Co., Ltd</p>
+
+        <!-- Social Icons -->
+        <div class="social-icons">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/12817839998" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+            </a>
+        </div>
 
         <!-- Download vCard button -->
         <button class="download-button" id="downloadBtn">DOWNLOAD VCARD</button>
