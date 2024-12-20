@@ -174,7 +174,7 @@
         </div>
 
         <!-- Download vCard button -->
-        <button class="download-button" onclick="showPopup()">DOWNLOAD VCARD</button>
+        <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD VCARD</button>
     </div>
 
     <!-- Popup -->
@@ -186,24 +186,37 @@
     </div>
 
     <script>
+        // 检测设备
+        function isMobile() {
+            return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        }
+
+        // 隐藏 "DOWNLOAD VCARD" 按钮
+        if (isMobile()) {
+            document.getElementById('downloadButton').style.display = 'none';
+        }
+
+        // 显示弹窗
         function showPopup() {
             document.getElementById('popup').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
 
-        function sendByEmail() {
-            window.location.href = 'mailto:oliveroogle@gmail.com?subject=Contact Info&body=Please find my vCard attached.';
-        }
-
-        function saveToPhone() {
-            // 确保此文件上传到 GitHub 或第三方托管平台
-            window.location.href = 'https://your-github-username.github.io/your-repo-name/oliverfang.vcf';
-        }
-
+        // 关闭弹窗
         document.getElementById('overlay').onclick = function () {
             document.getElementById('popup').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         };
+
+        // 邮件功能
+        function sendByEmail() {
+            window.location.href = 'mailto:oliveroogle@gmail.com?subject=Contact Info&body=Please find my vCard attached.';
+        }
+
+        // 下载 vCard 功能
+        function saveToPhone() {
+            window.location.href = 'https://your-github-username.github.io/your-repo-name/oliverfang.vcf'; // 替换为你的有效 URL
+        }
     </script>
 </body>
 </html>
