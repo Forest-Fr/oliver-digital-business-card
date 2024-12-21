@@ -152,14 +152,22 @@
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
 
-        <!-- Contact Info -->
+        <!-- Phone -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
             <a href="tel:+12817839998">+1 281 783 9998</a>
         </div>
+
+        <!-- Email -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
             <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a>
+        </div>
+
+        <!-- Company -->
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" alt="Company">
+            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
         </div>
 
         <!-- Social Links -->
@@ -229,6 +237,19 @@
             emailModal.style.display = 'none';
         });
 
+        // Close modals with ESC key or click outside
+        window.addEventListener('click', (event) => {
+            if (event.target === contactModal) contactModal.style.display = 'none';
+            if (event.target === emailModal) emailModal.style.display = 'none';
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                contactModal.style.display = 'none';
+                emailModal.style.display = 'none';
+            }
+        });
+
         // Save to phone functionality
         saveToPhone.addEventListener('click', () => {
             const link = document.createElement('a');
@@ -249,12 +270,6 @@
             } else {
                 alert('Please enter a valid email address.');
             }
-        });
-
-        // Close modal when clicking outside of content
-        window.addEventListener('click', (event) => {
-            if (event.target === contactModal) contactModal.style.display = 'none';
-            if (event.target === emailModal) emailModal.style.display = 'none';
         });
     </script>
 </body>
