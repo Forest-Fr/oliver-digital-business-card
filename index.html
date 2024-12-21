@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Card</title>
     <style>
+        /* General Styling */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
@@ -78,102 +79,68 @@
             transform: scale(1.1);
         }
 
-        .download-button {
+        .btn {
             display: inline-block;
-            margin-top: 20px;
             padding: 10px 20px;
-            background-color: #FF6F61;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
+            margin: 10px;
             font-size: 16px;
             cursor: pointer;
-            border: none;
-            transition: background-color 0.2s;
-        }
-
-        .download-button:hover {
-            background-color: #E55C50;
-        }
-
-        .popup, .selection, .confirmation {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            text-align: center;
-            z-index: 10;
-        }
-
-        .popup {
-            background-color: #FFE4E1;
-        }
-
-        .selection {
-            background-color: #E6F7FF;
-        }
-
-        .confirmation {
-            background-color: #FFFDE7;
-        }
-
-        .popup button, .selection button, .confirmation button {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #FF6F61;
-            color: white;
-            border: none;
             border-radius: 5px;
-            cursor: pointer;
+            border: none;
+            color: white;
         }
 
-        .popup button:nth-child(2), .selection button:nth-child(2), .confirmation button:nth-child(2) {
+        .btn.green {
             background-color: #4CAF50;
         }
 
-        .popup button:hover, .selection button:hover, .confirmation button:hover {
-            opacity: 0.9;
+        .btn.red {
+            background-color: #FF6F61;
         }
 
-        .overlay {
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Modal Styling */
+        .modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 5;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 18px;
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
             font-weight: bold;
-            color: #555;
             cursor: pointer;
         }
 
-        .close-button:hover {
+        .close:hover {
             color: red;
         }
 
         .email-input {
-            margin: 15px 0;
+            width: 80%;
             padding: 10px;
-            width: calc(100% - 40px);
-            font-size: 14px;
+            margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
@@ -184,98 +151,111 @@
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-        <button class="download-button" id="downloadButton" onclick="showPopup()">Download vCard</button>
+
+        <!-- Contact Info -->
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
+            <a href="tel:+12817839998">+1 281 783 9998</a>
+        </div>
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-icons">
+            <a href="https://wa.me/12817839998" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
+            </a>
+            <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+            </a>
+        </div>
+
+        <!-- Download vCard Button -->
+        <button id="downloadVcard" class="btn red">Download vCard</button>
     </div>
 
-    <div class="overlay" id="overlay"></div>
-    <div class="popup" id="popup">
-        <button class="close-button" id="closePopupButton">&times;</button>
-        <p>How would you like to save the contact data?</p>
-        <button onclick="showSelection()">Send by Email</button>
-        <button onclick="showConfirmation()">Save to My Phone</button>
+    <!-- Modals -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Save Contact Data</h2>
+            <p>How would you like to save contact data?</p>
+            <button id="sendByEmail" class="btn green">Send by Email</button>
+            <button id="saveToPhone" class="btn red">Save to My Phone</button>
+        </div>
     </div>
 
-    <div class="selection" id="selection">
-        <button class="close-button" id="closeSelectionButton">&times;</button>
-        <p>Enter your email to receive the contact:</p>
-        <input type="email" class="email-input" id="emailInput" placeholder="Enter your email address">
-        <button onclick="sendByEmail()">Send</button>
-        <button onclick="closeSelection()">Cancel</button>
-    </div>
-
-    <div class="confirmation" id="confirmation">
-        <button class="close-button" id="closeConfirmationButton">&times;</button>
-        <p>Do you want to download the vCard to your phone?</p>
-        <button onclick="saveToPhone()">Confirm</button>
-        <button onclick="closeConfirmation()">Cancel</button>
+    <div id="emailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeEmailModal">&times;</span>
+            <h2>Send by Email</h2>
+            <p>Send contact details using email.</p>
+            <input type="email" id="emailInput" class="email-input" placeholder="Enter Email Address">
+            <button id="sendEmail" class="btn green">Send</button>
+        </div>
     </div>
 
     <script>
-        function showPopup() {
-            document.getElementById('popup').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        }
+        // Elements
+        const downloadVcard = document.getElementById('downloadVcard');
+        const contactModal = document.getElementById('contactModal');
+        const emailModal = document.getElementById('emailModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeEmailModal = document.getElementById('closeEmailModal');
+        const sendByEmail = document.getElementById('sendByEmail');
+        const saveToPhone = document.getElementById('saveToPhone');
+        const sendEmail = document.getElementById('sendEmail');
 
-        function showSelection() {
-            closePopup();
-            document.getElementById('selection').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        }
+        // Open contact modal
+        downloadVcard.addEventListener('click', () => {
+            contactModal.style.display = 'block';
+        });
 
-        function showConfirmation() {
-            closePopup();
-            document.getElementById('confirmation').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        }
+        // Close contact modal
+        closeModal.addEventListener('click', () => {
+            contactModal.style.display = 'none';
+        });
 
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
+        // Open email modal
+        sendByEmail.addEventListener('click', () => {
+            contactModal.style.display = 'none';
+            emailModal.style.display = 'block';
+        });
 
-        function closeSelection() {
-            document.getElementById('selection').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
+        // Close email modal
+        closeEmailModal.addEventListener('click', () => {
+            emailModal.style.display = 'none';
+        });
 
-        function closeConfirmation() {
-            document.getElementById('confirmation').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
-
-        function sendByEmail() {
-            const email = document.getElementById('emailInput').value;
-            if (!email) {
-                alert("Please enter a valid email address!");
-                return;
-            }
-            alert(`The contact details will be sent to ${email}.`);
-            closeSelection();
-        }
-
-        function saveToPhone() {
+        // Save to phone functionality
+        saveToPhone.addEventListener('click', () => {
             const link = document.createElement('a');
-            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliverfang.jpeg';
-            link.download = 'oliver-fang-QR-code-for-contact.jpeg';
+            link.href = 'path-to-vcard/oliver-fang-QR-code-for-contact.vcf'; // Replace with your vCard file URL
+            link.download = 'oliver-fang-QR-code-for-contact.vcf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            closeConfirmation();
-        }
+            contactModal.style.display = 'none';
+        });
 
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closePopup();
-                closeSelection();
-                closeConfirmation();
+        // Send email functionality
+        sendEmail.addEventListener('click', () => {
+            const emailAddress = document.getElementById('emailInput').value;
+            if (emailAddress) {
+                alert(`vCard will be sent to ${emailAddress}`);
+                emailModal.style.display = 'none';
+            } else {
+                alert('Please enter a valid email address.');
             }
         });
 
-        document.getElementById('overlay').onclick = function () {
-            closePopup();
-            closeSelection();
-            closeConfirmation();
-        };
+        // Close modal when clicking outside of content
+        window.addEventListener('click', (event) => {
+            if (event.target === contactModal) contactModal.style.display = 'none';
+            if (event.target === emailModal) emailModal.style.display = 'none';
+        });
     </script>
 </body>
 </html>
