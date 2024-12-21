@@ -156,6 +156,15 @@
         .close-button:hover {
             color: red;
         }
+
+        .email-input {
+            margin: 15px 0;
+            padding: 10px;
+            width: calc(100% - 40px);
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -163,17 +172,26 @@
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-
+        
+        <!-- Phone -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
             <a href="tel:+12817839998">+1 281 783 9998</a>
         </div>
 
+        <!-- Email -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
             <p><a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
         </div>
 
+        <!-- Company -->
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" alt="Company">
+            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
+        </div>
+
+        <!-- Social Icons -->
         <div class="social-icons">
             <a href="https://wa.me/12817839998" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
@@ -183,6 +201,7 @@
             </a>
         </div>
 
+        <!-- Download vCard button -->
         <button class="download-button" id="downloadButton" onclick="showPopup()">Download vCard</button>
     </div>
 
@@ -196,8 +215,9 @@
 
     <div class="selection" id="selection">
         <button class="close-button" id="closeSelectionButton">&times;</button>
-        <p>Do you want to confirm sending the contact by email?</p>
-        <button onclick="sendByEmail()">Confirm</button>
+        <p>Enter your email to receive the contact:</p>
+        <input type="email" class="email-input" id="emailInput" placeholder="Enter your email address">
+        <button onclick="sendByEmail()">Send</button>
         <button onclick="closeSelection()">Cancel</button>
     </div>
 
@@ -209,51 +229,48 @@
     </div>
 
     <script>
-        // 显示主弹窗
         function showPopup() {
             document.getElementById('popup').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
 
-        // 显示选择界面
         function showSelection() {
             closePopup();
             document.getElementById('selection').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
 
-        // 显示确认界面
         function showConfirmation() {
             closePopup();
             document.getElementById('confirmation').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
 
-        // 关闭主弹窗
         function closePopup() {
             document.getElementById('popup').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
 
-        // 关闭选择界面
         function closeSelection() {
             document.getElementById('selection').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
 
-        // 关闭确认界面
         function closeConfirmation() {
             document.getElementById('confirmation').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
 
-        // 邮件功能
         function sendByEmail() {
-            alert("Email sent successfully!");
+            const email = document.getElementById('emailInput').value;
+            if (!email) {
+                alert("Please enter a valid email address!");
+                return;
+            }
+            alert(`The contact details will be sent to ${email}.`);
             closeSelection();
         }
 
-        // 下载功能
         function saveToPhone() {
             const link = document.createElement('a');
             link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliverfang.jpeg';
@@ -263,6 +280,20 @@
             document.body.removeChild(link);
             closeConfirmation();
         }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closePopup();
+                closeSelection();
+                closeConfirmation();
+            }
+        });
+
+        document.getElementById('overlay').onclick = function () {
+            closePopup();
+            closeSelection();
+            closeConfirmation();
+        };
     </script>
 </body>
 </html>
