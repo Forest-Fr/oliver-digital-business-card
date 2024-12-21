@@ -117,22 +117,19 @@
 
         .modal-content {
             background-color: #fff;
-            margin: 10% auto;
+            margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
-            max-width: 400px;
+            width: 40%;
             text-align: center;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
+            float: right;
+            font-size: 28px;
             font-weight: bold;
-            color: #555;
             cursor: pointer;
         }
 
@@ -146,17 +143,6 @@
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 5;
         }
     </style>
 </head>
@@ -220,6 +206,7 @@
     </div>
 
     <script>
+        // Elements
         const downloadVcard = document.getElementById('downloadVcard');
         const contactModal = document.getElementById('contactModal');
         const emailModal = document.getElementById('emailModal');
@@ -234,13 +221,9 @@
             contactModal.style.display = 'block';
         });
 
-        // Close modals
+        // Close contact modal
         closeModal.addEventListener('click', () => {
             contactModal.style.display = 'none';
-        });
-
-        closeEmailModal.addEventListener('click', () => {
-            emailModal.style.display = 'none';
         });
 
         // Open email modal
@@ -249,29 +232,12 @@
             emailModal.style.display = 'block';
         });
 
-        // 下载图片功能
-        function saveToPhone() {
-            const link = document.createElement('a');
-            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliverfang.jpeg'; // 替换为有效路径
-            link.download = 'oliver-fang-QR-code-for-contact.jpeg';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            closePopup();
+        // Close email modal
+        closeEmailModal.addEventListener('click', () => {
+            emailModal.style.display = 'none';
         });
 
-        // Send email functionality
-        sendEmail.addEventListener('click', () => {
-            const emailAddress = document.getElementById('emailInput').value;
-            if (emailAddress) {
-                window.location.href = `mailto:${emailAddress}?subject=Contact%20Card&body=Attached%20is%20the%20vCard%20file.`;
-                emailModal.style.display = 'none';
-            } else {
-                alert('Please enter a valid email address.');
-            }
-        });
-
-        // Close modals with ESC key or outside click
+        // Close modals with ESC key or click outside
         window.addEventListener('click', (event) => {
             if (event.target === contactModal) contactModal.style.display = 'none';
             if (event.target === emailModal) emailModal.style.display = 'none';
@@ -281,6 +247,28 @@
             if (event.key === 'Escape') {
                 contactModal.style.display = 'none';
                 emailModal.style.display = 'none';
+            }
+        });
+
+        // Save to phone functionality
+        saveToPhone.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = 'https://forest-fr.github.io/oliver-fang-QR-code-for-contact.jpeg'; // Replace with your vCard file URL
+            link.download = 'oliver-fang-QR-code-for-contact.jpeg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            contactModal.style.display = 'none';
+        });
+
+        // Send email functionality
+        sendEmail.addEventListener('click', () => {
+            const emailAddress = document.getElementById('emailInput').value;
+            if (emailAddress) {
+                alert(`vCard will be sent to ${emailAddress}`);
+                emailModal.style.display = 'none';
+            } else {
+                alert('Please enter a valid email address.');
             }
         });
     </script>
