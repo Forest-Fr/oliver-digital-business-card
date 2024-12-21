@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Card</title>
     <style>
-        /* Main styles for layout */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
@@ -26,15 +25,71 @@
             width: 90%;
         }
 
+        .card h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .card p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            gap: 10px;
+        }
+
+        .contact-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .contact-item a {
+            color: #FF6F61;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+
         .download-button {
+            display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
             background-color: #FF6F61;
             color: #fff;
-            border: none;
+            text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
+            border: none;
             transition: background-color 0.2s;
         }
 
@@ -42,7 +97,7 @@
             background-color: #E55C50;
         }
 
-        .popup, .email-popup {
+        .popup {
             display: none;
             position: fixed;
             top: 50%;
@@ -54,17 +109,25 @@
             border-radius: 10px;
             text-align: center;
             z-index: 10;
-            width: 300px;
         }
 
-        .popup .close-btn, .email-popup .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
+        .popup button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #FF6F61;
+            color: white;
             border: none;
-            font-size: 18px;
+            border-radius: 5px;
             cursor: pointer;
+        }
+
+        .popup button:nth-child(2) {
+            background-color: #4CAF50;
+        }
+
+        .popup button:hover {
+            opacity: 0.9;
         }
 
         .overlay {
@@ -77,56 +140,44 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 5;
         }
-
-        .email-input {
-            margin: 15px 0;
-            width: 90%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .send-btn {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .send-btn:hover {
-            opacity: 0.9;
-        }
     </style>
 </head>
 <body>
     <div class="card">
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
-        <button class="download-button" onclick="showPopup()">DOWNLOAD IMAGE</button>
+        <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
+        
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
+            <a href="tel:+12817839998">+1 281 783 9998</a>
+        </div>
+
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            <p><a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
+        </div>
+
+        <div class="social-icons">
+            <a href="https://wa.me/12817839998" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
+            </a>
+            <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+            </a>
+        </div>
+
+        <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD IMAGE</button>
     </div>
 
-    <!-- Popup -->
-    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+    <div class="overlay" id="overlay"></div>
     <div class="popup" id="popup">
-        <button class="close-btn" onclick="closePopup()">X</button>
         <p>Save Contact Data</p>
-        <button onclick="showEmailPopup()">Send by Email</button>
+        <button onclick="sendByEmail()">Send by Email</button>
         <button onclick="saveToPhone()">Save to My Phone</button>
     </div>
 
-    <!-- Email Popup -->
-    <div class="overlay" id="email-overlay" onclick="closeEmailPopup()"></div>
-    <div class="email-popup" id="email-popup">
-        <button class="close-btn" onclick="closeEmailPopup()">X</button>
-        <p>Send by Email</p>
-        <input type="email" id="email-input" class="email-input" placeholder="Enter Email Address" />
-        <button class="send-btn" onclick="sendEmail()">SEND</button>
-    </div>
-
     <script>
-        // Popup management
         function showPopup() {
             document.getElementById('popup').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
@@ -137,46 +188,21 @@
             document.getElementById('overlay').style.display = 'none';
         }
 
-        // Email popup management
-        function showEmailPopup() {
-            closePopup();
-            document.getElementById('email-popup').style.display = 'block';
-            document.getElementById('email-overlay').style.display = 'block';
+        function sendByEmail() {
+            window.location.href = 'mailto:oliveroogle@gmail.com?subject=Contact Info&body=Attached is my vCard.';
         }
 
-        function closeEmailPopup() {
-            document.getElementById('email-popup').style.display = 'none';
-            document.getElementById('email-overlay').style.display = 'none';
-        }
-
-        // Save to phone
         function saveToPhone() {
             const link = document.createElement('a');
-            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliverfang.jpeg';
+            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg';
             link.download = 'oliver-fang-QR-code-for-contact.jpeg';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            closePopup();
         }
 
-        // Send email
-        function sendEmail() {
-            const email = document.getElementById('email-input').value;
-            if (email) {
-                window.location.href = `mailto:${email}?subject=Contact Info&body=Please find my contact image attached.`;
-                closeEmailPopup();
-            } else {
-                alert('Please enter a valid email address.');
-            }
-        }
-
-        // ESC key handling
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closePopup();
-                closeEmailPopup();
-            }
-        });
+        document.getElementById('overlay').onclick = closePopup;
     </script>
 </body>
 </html>
