@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Card</title>
     <style>
-        /* General Styling */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
@@ -24,59 +23,6 @@
             text-align: center;
             max-width: 400px;
             width: 90%;
-        }
-
-        .card h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #333;
-        }
-
-        .card p {
-            margin: 10px 0;
-            color: #555;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            gap: 10px;
-        }
-
-        .contact-item img {
-            width: 20px;
-            height: 20px;
-        }
-
-        .contact-item a {
-            color: #FF6F61;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .contact-item a:hover {
-            text-decoration: underline;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-icons img {
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: transform 0.2s;
-        }
-
-        .social-icons img:hover {
-            transform: scale(1.1);
         }
 
         .btn {
@@ -117,10 +63,10 @@
 
         .modal-content {
             background-color: #fff;
-            margin: 15% auto;
+            margin: 10% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 30%; /* 优化弹窗宽度比例 */
+            width: 30%; /* 调整比例 */
             text-align: center;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -128,10 +74,10 @@
 
         .close {
             float: right;
-            font-size: 20px; /* 缩小关闭按钮 */
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-            margin-right: -10px; /* 调整间距 */
+            color: #555;
         }
 
         .close:hover {
@@ -139,7 +85,7 @@
         }
 
         .email-input {
-            width: 80%;
+            width: 90%; /* 优化输入框宽度 */
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
@@ -151,41 +97,10 @@
     <div class="card">
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
-        <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-
-        <!-- Phone -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
-            <a href="tel:+12817839998">+1 281 783 9998</a>
-        </div>
-
-        <!-- Email -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
-            <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a>
-        </div>
-
-        <!-- Company -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" alt="Company">
-            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
-        </div>
-
-        <!-- Social Links -->
-        <div class="social-icons">
-            <a href="https://wa.me/12817839998" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
-            </a>
-            <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
-            </a>
-        </div>
-
-        <!-- Download vCard Button -->
         <button id="downloadVcard" class="btn red">Download vCard</button>
     </div>
 
-    <!-- Modals -->
+    <!-- First-Level Modal -->
     <div id="contactModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
@@ -196,62 +111,97 @@
         </div>
     </div>
 
+    <!-- Second-Level Modal -->
     <div id="emailModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeEmailModal">&times;</span>
             <h2>Send by Email</h2>
-            <p>Send contact details using email.</p>
+            <p>Enter your email address:</p>
             <input type="email" id="emailInput" class="email-input" placeholder="Enter Email Address">
             <button id="sendEmail" class="btn green">Send</button>
         </div>
     </div>
 
-    <script>
-        // 引入 EmailJS 初始化
-        const sendEmailWithEmailJS = (emailAddress) => {
-            emailjs.send("your_service_id", "your_template_id", {
-                to_email: emailAddress,
-                from_name: "Oliver Fang",
-            }).then((response) => {
-                alert(`Email sent successfully to ${emailAddress}`);
-            }).catch((error) => {
-                alert("Failed to send email. Please try again.");
-                console.error(error);
-            });
-        };
-
-        // 邮件发送逻辑
-        document.getElementById("sendEmail").addEventListener("click", () => {
-            const emailAddress = document.getElementById("emailInput").value;
-            if (emailAddress) {
-                sendEmailWithEmailJS(emailAddress);
-            } else {
-                alert("Please enter a valid email address.");
-            }
-        });
-
-        // 关闭弹窗逻辑
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") {
-                document.getElementById("contactModal").style.display = "none";
-                document.getElementById("emailModal").style.display = "none";
-            }
-        });
-
-        window.addEventListener("click", (event) => {
-            if (event.target === document.getElementById("contactModal")) {
-                document.getElementById("contactModal").style.display = "none";
-            }
-            if (event.target === document.getElementById("emailModal")) {
-                document.getElementById("emailModal").style.display = "none";
-            }
-        });
-    </script>
-
-    <!-- EmailJS 初始化 -->
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        emailjs.init("your_public_key");
+        // Initialize EmailJS
+        emailjs.init("your_public_key"); // 替换为 EmailJS 公共密钥
+
+        // Elements
+        const downloadVcard = document.getElementById('downloadVcard');
+        const contactModal = document.getElementById('contactModal');
+        const emailModal = document.getElementById('emailModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeEmailModal = document.getElementById('closeEmailModal');
+        const sendByEmail = document.getElementById('sendByEmail');
+        const saveToPhone = document.getElementById('saveToPhone');
+        const sendEmail = document.getElementById('sendEmail');
+
+        // Open contact modal
+        downloadVcard.addEventListener('click', () => {
+            contactModal.style.display = 'block';
+        });
+
+        // Close contact modal
+        closeModal.addEventListener('click', () => {
+            contactModal.style.display = 'none';
+        });
+
+        // Open email modal
+        sendByEmail.addEventListener('click', () => {
+            contactModal.style.display = 'none';
+            emailModal.style.display = 'block';
+        });
+
+        // Close email modal
+        closeEmailModal.addEventListener('click', () => {
+            emailModal.style.display = 'none';
+        });
+
+        // Close modal on ESC key or outside click
+        window.addEventListener('click', (event) => {
+            if (event.target === contactModal) contactModal.style.display = 'none';
+            if (event.target === emailModal) emailModal.style.display = 'none';
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                contactModal.style.display = 'none';
+                emailModal.style.display = 'none';
+            }
+        });
+
+        // Save to phone functionality
+        saveToPhone.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = './oliver-fang-QR-code-for-contact.vcf'; // 替换为实际 vCard 文件路径
+            link.download = 'oliver-fang-QR-code-for-contact.vcf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            contactModal.style.display = 'none';
+        });
+
+        // Send email functionality
+        sendEmail.addEventListener('click', () => {
+            const emailAddress = document.getElementById('emailInput').value;
+            if (emailAddress) {
+                emailjs.send("your_service_id", "your_template_id", {
+                    to_email: emailAddress,
+                    from_name: "Oliver Fang",
+                    message: "Here is the vCard for contact information."
+                })
+                .then(() => {
+                    alert(`vCard has been sent to ${emailAddress}`);
+                    emailModal.style.display = 'none';
+                })
+                .catch(() => {
+                    alert("Failed to send email. Please try again.");
+                });
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        });
     </script>
 </body>
 </html>
