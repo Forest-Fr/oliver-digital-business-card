@@ -200,13 +200,7 @@
     </div>
 
     <script>
-        const popup = document.getElementById("popup");
-        const confirmPopup = document.getElementById("confirmPopup");
-        const overlay = document.getElementById("overlay");
-        const confirmText = document.getElementById("confirmText");
-        const confirmAction = document.getElementById("confirmAction");
-
-        // 自动识别设备，隐藏或显示按钮
+        // 自动检测移动设备并隐藏按钮
         function isMobile() {
             return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         }
@@ -214,47 +208,63 @@
             document.getElementById("downloadButton").style.display = "none";
         }
 
+        // Gmail 邮件功能
+        function sendToGmail() {
+            const recipient = "oliveroogle@gmail.com";
+            const subject = "Inquiry about PoE Products";
+            const body = `
+Dear Oliver Fang,
+
+I am interested in your products/services. Please provide more details.
+
+Best regards,
+[Your Name]
+[Your Contact Information]`;
+
+            const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoUrl;
+        }
+
         // 显示一级弹窗
         function showPopup() {
-            popup.style.display = "block";
-            overlay.style.display = "block";
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
         }
 
         // 关闭一级弹窗
         function closePopup() {
-            popup.style.display = "none";
-            overlay.style.display = "none";
+            document.getElementById("popup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
         }
 
-        // 显示二级确认弹窗（下载）
+        // 显示下载弹窗
         function showConfirmDownload() {
             closePopup();
-            confirmText.innerText = "Do you want to download the vCard to your phone?";
-            confirmAction.innerText = "Confirm Download";
-            confirmAction.onclick = saveToPhone;
+            const confirmPopup = document.getElementById("confirmPopup");
+            confirmPopup.querySelector("#confirmText").innerText = "Download vCard to your device?";
+            confirmPopup.querySelector("#confirmAction").onclick = saveToPhone;
             confirmPopup.style.display = "block";
         }
 
-        // 关闭二级确认弹窗
+        // 关闭二级弹窗
         function closeConfirmPopup() {
-            confirmPopup.style.display = "none";
-            overlay.style.display = "none";
+            document.getElementById("confirmPopup").style.display = "none";
         }
 
-        // Gmail 网页端发送邮件
-        function sendToGmail() {
-            const subject = "Contact Information - Oliver Fang";
-            const body = "Dear Recipient,\n\nPlease find attached the vCard for Oliver Fang.";
-            const mailtoUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=recipient@example.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(mailtoUrl, "_blank");
-        }
-
-        // 邮件功能（下载邮件模板）
-        function downloadEmailTemplate() {
+        // 保存到手机
+        function saveToPhone() {
             closeConfirmPopup();
+            const link = document.createElement("a");
+            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg";
+            link.download = "oliver-fang-QR-code-for-contact.jpeg";
+            link.click();
+        }
+
+        // 下载邮件模板
+        function downloadEmailTemplate() {
             const emailContent = `
-From: oliveroogle@gmail.com
-To: recipient@example.com
+From: [Your Email]
+To: oliveroogle@gmail.com
 Subject: Contact Information - Oliver Fang
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="simple-boundary"
@@ -262,9 +272,9 @@ Content-Type: multipart/mixed; boundary="simple-boundary"
 --simple-boundary
 Content-Type: text/plain; charset="UTF-8"
 
-Dear Recipient,
+Dear Oliver Fang,
 
-Please find attached the vCard for Oliver Fang.
+Please find attached my inquiry.
 
 --simple-boundary
 Content-Type: text/vcard; charset="UTF-8"; name="oliver-fang-QR-code-for-contact.jpeg"
@@ -279,9 +289,7 @@ EMAIL:oliveroogle@gmail.com
 ORG:Shen Zhen Dijiean Technology Co., Ltd
 URL:http://en.djakeji.com
 END:VCARD
---simple-boundary--
-            `;
-            
+--simple-boundary--`;
             const blob = new Blob([emailContent], { type: "text/plain" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -289,16 +297,7 @@ END:VCARD
             link.click();
         }
 
-        // 下载功能
-        function saveToPhone() {
-            closeConfirmPopup();
-            const link = document.createElement("a");
-            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg"; // 替换为有效路径
-            link.download = "oliver-fang-QR-code-for-contact.jpeg";
-            link.click();
-        }
-
-        // 键盘 ESC 关闭弹窗
+        // 监听键盘 ESC 键
         document.addEventListener("keydown", (event) => {
             if (event.key === "Escape") {
                 closePopup();
