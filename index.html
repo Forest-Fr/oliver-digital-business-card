@@ -187,7 +187,7 @@
     <!-- 一级弹窗 -->
     <div class="popup" id="popup">
         <p>How would you like to save the contact?</p>
-        <button class="confirm" onclick="showConfirmEmail()">Save by Email</button>
+        <button class="confirm" onclick="downloadEmailTemplate()">Save by Email</button>
         <button class="confirm" onclick="showConfirmDownload()">Save to My Phone</button>
         <button class="cancel" onclick="closePopup()">Cancel</button>
     </div>
@@ -226,15 +226,6 @@
             overlay.style.display = "none";
         }
 
-        // 显示二级确认弹窗（邮件）
-        function showConfirmEmail() {
-            closePopup();
-            confirmText.innerText = "Do you want to send the vCard by email?";
-            confirmAction.innerText = "Confirm Email";
-            confirmAction.onclick = sendByEmail;
-            confirmPopup.style.display = "block";
-        }
-
         // 显示二级确认弹窗（下载）
         function showConfirmDownload() {
             closePopup();
@@ -251,10 +242,43 @@
         }
 
         // 邮件功能（下载邮件模板）
-        function sendByEmail() {
+        function downloadEmailTemplate() {
             closeConfirmPopup();
-            const emailBody = `mailto:?subject=Contact Information&body=Please find attached the vCard of Oliver Fang.&attachment="Oliver-Fang.vcf"`;
-            window.location.href = emailBody;
+            const emailContent = `
+From: oliveroogle@gmail.com
+To: recipient@example.com
+Subject: Contact Information - Oliver Fang
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="simple-boundary"
+
+--simple-boundary
+Content-Type: text/plain; charset="UTF-8"
+
+Dear Recipient,
+
+Please find attached the vCard for Oliver Fang.
+
+--simple-boundary
+Content-Type: text/vcard; charset="UTF-8"; name="Oliver-Fang.vcf"
+Content-Disposition: attachment; filename="Oliver-Fang.vcf"
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Oliver Fang
+TITLE:Sales Manager
+TEL:+12817839998
+EMAIL:oliveroogle@gmail.com
+ORG:Shen Zhen Dijiean Technology Co., Ltd
+URL:http://en.djakeji.com
+END:VCARD
+--simple-boundary--
+            `;
+            
+            const blob = new Blob([emailContent], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Oliver-Fang-Contact.eml";
+            link.click();
         }
 
         // 下载功能
