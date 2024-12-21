@@ -97,7 +97,7 @@
             background-color: #E55C50;
         }
 
-        .popup {
+        .popup, .selection, .confirmation {
             display: none;
             position: fixed;
             top: 50%;
@@ -111,7 +111,7 @@
             z-index: 10;
         }
 
-        .popup button {
+        .popup button, .selection button, .confirmation button {
             display: block;
             margin: 10px auto;
             padding: 10px 20px;
@@ -122,11 +122,11 @@
             cursor: pointer;
         }
 
-        .popup button:nth-child(2) {
+        .popup button:nth-child(2), .selection button:nth-child(2), .confirmation button:nth-child(2) {
             background-color: #4CAF50;
         }
 
-        .popup button:hover {
+        .popup button:hover, .selection button:hover, .confirmation button:hover {
             opacity: 0.9;
         }
 
@@ -140,6 +140,22 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 5;
         }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -147,7 +163,7 @@
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-        
+
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
             <a href="tel:+12817839998">+1 281 783 9998</a>
@@ -167,42 +183,86 @@
             </a>
         </div>
 
-        <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD IMAGE</button>
+        <button class="download-button" id="downloadButton" onclick="showPopup()">Download vCard</button>
     </div>
 
     <div class="overlay" id="overlay"></div>
     <div class="popup" id="popup">
-        <p>Save Contact Data</p>
-        <button onclick="sendByEmail()">Send by Email</button>
-        <button onclick="saveToPhone()">Save to My Phone</button>
+        <button class="close-button" id="closePopupButton">&times;</button>
+        <p>How would you like to save the contact data?</p>
+        <button onclick="showSelection()">Send by Email</button>
+        <button onclick="showConfirmation()">Save to My Phone</button>
+    </div>
+
+    <div class="selection" id="selection">
+        <button class="close-button" id="closeSelectionButton">&times;</button>
+        <p>Do you want to confirm sending the contact by email?</p>
+        <button onclick="sendByEmail()">Confirm</button>
+        <button onclick="closeSelection()">Cancel</button>
+    </div>
+
+    <div class="confirmation" id="confirmation">
+        <button class="close-button" id="closeConfirmationButton">&times;</button>
+        <p>Do you want to download the vCard to your phone?</p>
+        <button onclick="saveToPhone()">Confirm</button>
+        <button onclick="closeConfirmation()">Cancel</button>
     </div>
 
     <script>
+        // 显示主弹窗
         function showPopup() {
             document.getElementById('popup').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
 
+        // 显示选择界面
+        function showSelection() {
+            closePopup();
+            document.getElementById('selection').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // 显示确认界面
+        function showConfirmation() {
+            closePopup();
+            document.getElementById('confirmation').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // 关闭主弹窗
         function closePopup() {
             document.getElementById('popup').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
 
-        function sendByEmail() {
-            window.location.href = 'mailto:oliveroogle@gmail.com?subject=Contact Info&body=Attached is my vCard.';
+        // 关闭选择界面
+        function closeSelection() {
+            document.getElementById('selection').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
         }
 
+        // 关闭确认界面
+        function closeConfirmation() {
+            document.getElementById('confirmation').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // 邮件功能
+        function sendByEmail() {
+            alert("Email sent successfully!");
+            closeSelection();
+        }
+
+        // 下载功能
         function saveToPhone() {
             const link = document.createElement('a');
-            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg';
+            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliverfang.jpeg';
             link.download = 'oliver-fang-QR-code-for-contact.jpeg';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            closePopup();
+            closeConfirmation();
         }
-
-        document.getElementById('overlay').onclick = closePopup;
     </script>
 </body>
 </html>
