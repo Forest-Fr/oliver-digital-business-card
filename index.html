@@ -249,15 +249,15 @@
             emailModal.style.display = 'block';
         });
 
-        // Save to phone functionality
-        saveToPhone.addEventListener('click', () => {
+        // 下载图片功能
+        function saveToPhone() {
             const link = document.createElement('a');
-            link.href = 'path-to-vcard/oliver-fang-QR-code-for-contact.jpeg';
+            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliverfang.jpeg'; // 替换为有效路径
             link.download = 'oliver-fang-QR-code-for-contact.jpeg';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            contactModal.style.display = 'none';
+            closePopup();
         });
 
         // Send email functionality
