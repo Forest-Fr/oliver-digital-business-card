@@ -25,59 +25,6 @@
             width: 90%;
         }
 
-        .card h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #333;
-        }
-
-        .card p {
-            margin: 10px 0;
-            color: #555;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            gap: 10px;
-        }
-
-        .contact-item img {
-            width: 20px;
-            height: 20px;
-        }
-
-        .contact-item a {
-            color: #FF6F61;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .contact-item a:hover {
-            text-decoration: underline;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-icons img {
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: transform 0.2s;
-        }
-
-        .social-icons img:hover {
-            transform: scale(1.1);
-        }
-
         .download-button {
             display: inline-block;
             margin-top: 20px;
@@ -97,7 +44,7 @@
             background-color: #E55C50;
         }
 
-        .popup {
+        .popup, .confirm-popup {
             display: none;
             position: fixed;
             top: 50%;
@@ -111,25 +58,6 @@
             z-index: 10;
         }
 
-        .popup button {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #FF6F61;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .popup button:nth-child(2) {
-            background-color: #4CAF50; /* 第二个按钮为绿色 */
-        }
-
-        .popup button:hover {
-            opacity: 0.9;
-        }
-
         .overlay {
             display: none;
             position: fixed;
@@ -140,101 +68,111 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 5;
         }
+
+        .popup button, .confirm-popup button {
+            display: inline-block;
+            margin: 10px 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup .confirm, .confirm-popup .confirm {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .popup .cancel, .confirm-popup .cancel {
+            background-color: #FF6F61;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <div class="card">
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
-        <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-        
-        <!-- Phone -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
-            <a href="tel:+12817839998">+1 281 783 9998</a>
-        </div>
-
-        <!-- Email -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
-            <p><a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
-        </div>
-
-        <!-- Company -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" alt="Company">
-            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
-        </div>
-
-        <!-- Social Icons -->
-        <div class="social-icons">
-            <!-- WhatsApp -->
-            <a href="https://wa.me/12817839998" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
-            </a>
-            <!-- LinkedIn -->
-            <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
-            </a>
-        </div>
-
-        <!-- Download vCard button -->
+        <p>DJA: PoE switch brand by Dijiean Tech.</p>
         <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD VCARD</button>
     </div>
 
-    <!-- Popup -->
     <div class="overlay" id="overlay"></div>
+
+    <!-- 一级弹窗 -->
     <div class="popup" id="popup">
-        <p>Save Contact Data</p>
-        <button onclick="sendByEmail()">Send by Email</button>
-        <button onclick="saveToPhone()">Save to My Phone</button>
+        <p>How would you like to save the contact?</p>
+        <button class="confirm" onclick="showConfirmEmail()">Save by Email</button>
+        <button class="confirm" onclick="showConfirmDownload()">Save to My Phone</button>
+        <button class="cancel" onclick="closePopup()">Cancel</button>
+    </div>
+
+    <!-- 二级确认弹窗 -->
+    <div class="confirm-popup" id="confirmPopup">
+        <p id="confirmText"></p>
+        <button class="confirm" id="confirmAction"></button>
+        <button class="cancel" onclick="closeConfirmPopup()">Cancel</button>
     </div>
 
     <script>
-        // 检测设备
-        function isMobile() {
-            return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        }
+        const popup = document.getElementById("popup");
+        const confirmPopup = document.getElementById("confirmPopup");
+        const overlay = document.getElementById("overlay");
+        const confirmText = document.getElementById("confirmText");
+        const confirmAction = document.getElementById("confirmAction");
 
-        // 隐藏 "DOWNLOAD VCARD" 按钮
-        if (isMobile()) {
-            document.getElementById('downloadButton').style.display = 'none';
-        }
-
-        // 显示弹窗
+        // 显示一级弹窗
         function showPopup() {
-            document.getElementById('popup').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
+            popup.style.display = "block";
+            overlay.style.display = "block";
         }
 
-        // 关闭弹窗
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') closePopup();
-        });
-
+        // 关闭一级弹窗
         function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
+            popup.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        // 显示二级确认弹窗（邮件）
+        function showConfirmEmail() {
+            closePopup();
+            confirmText.innerText = "Do you want to send the vCard by email?";
+            confirmAction.innerText = "Confirm Email";
+            confirmAction.onclick = sendByEmail;
+            confirmPopup.style.display = "block";
+        }
+
+        // 显示二级确认弹窗（下载）
+        function showConfirmDownload() {
+            closePopup();
+            confirmText.innerText = "Do you want to download the vCard to your phone?";
+            confirmAction.innerText = "Confirm Download";
+            confirmAction.onclick = saveToPhone;
+            confirmPopup.style.display = "block";
+        }
+
+        // 关闭二级确认弹窗
+        function closeConfirmPopup() {
+            confirmPopup.style.display = "none";
+            overlay.style.display = "none";
         }
 
         // 邮件功能
         function sendByEmail() {
+            closeConfirmPopup();
             window.location.href = 'mailto:oliveroogle@gmail.com?subject=Contact Info&body=Please find my vCard attached.';
         }
 
-        // 下载图片功能
+        // 下载功能
         function saveToPhone() {
-            const link = document.createElement('a');
-            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliverfang.jpeg'; // 替换为有效路径
-            link.download = 'oliver-fang-QR-code-for-contact.jpeg';
+            closeConfirmPopup();
+            const link = document.createElement("a");
+            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg"; // 替换为有效路径
+            link.download = "oliver-fang-QR-code-for-contact.jpeg";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            closePopup();
         }
-
-        // 点击遮罩层关闭弹窗
-        document.getElementById('overlay').onclick = closePopup;
     </script>
 </body>
 </html>
