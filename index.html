@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Card</title>
     <style>
-        /* General Styling */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
@@ -79,70 +78,67 @@
             transform: scale(1.1);
         }
 
-        .btn {
+        .download-button {
             display: inline-block;
+            margin-top: 20px;
             padding: 10px 20px;
-            margin: 10px;
+            background-color: #FF6F61;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
             font-size: 16px;
             cursor: pointer;
-            border-radius: 5px;
             border: none;
-            color: white;
+            transition: background-color 0.2s;
         }
 
-        .btn.green {
-            background-color: #4CAF50;
+        .download-button:hover {
+            background-color: #E55C50;
         }
 
-        .btn.red {
-            background-color: #FF6F61;
-        }
-
-        .btn:hover {
-            opacity: 0.8;
-        }
-
-        /* Modal Styling */
-        .modal {
+        .popup {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 15% auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
             padding: 20px;
-            border: 1px solid #888;
-            width: 40%;
-            text-align: center;
-            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            z-index: 10;
         }
 
-        .close {
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+        .popup button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #FF6F61;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
 
-        .close:hover {
-            color: red;
+        .popup button:nth-child(2) {
+            background-color: #4CAF50; /* 第二个按钮为绿色 */
         }
 
-        .email-input {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .popup button:hover {
+            opacity: 0.9;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 5;
         }
     </style>
 </head>
@@ -151,7 +147,7 @@
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-
+        
         <!-- Phone -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
@@ -161,7 +157,7 @@
         <!-- Email -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
-            <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a>
+            <p><a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
         </div>
 
         <!-- Company -->
@@ -170,107 +166,75 @@
             <p>Shen Zhen Dijiean Technology Co., Ltd</p>
         </div>
 
-        <!-- Social Links -->
+        <!-- Social Icons -->
         <div class="social-icons">
+            <!-- WhatsApp -->
             <a href="https://wa.me/12817839998" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
             </a>
+            <!-- LinkedIn -->
             <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
             </a>
         </div>
 
-        <!-- Download vCard Button -->
-        <button id="downloadVcard" class="btn red">Download vCard</button>
+        <!-- Download vCard button -->
+        <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD IMAGE</button>
     </div>
 
-    <!-- Modals -->
-    <div id="contactModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>Save Contact Data</h2>
-            <p>How would you like to save contact data?</p>
-            <button id="sendByEmail" class="btn green">Send by Email</button>
-            <button id="saveToPhone" class="btn red">Save to My Phone</button>
-        </div>
-    </div>
-
-    <div id="emailModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeEmailModal">&times;</span>
-            <h2>Send by Email</h2>
-            <p>Send contact details using email.</p>
-            <input type="email" id="emailInput" class="email-input" placeholder="Enter Email Address">
-            <button id="sendEmail" class="btn green">Send</button>
-        </div>
+    <!-- Popup -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <p>Save Contact Data</p>
+        <button onclick="sendByEmail()">Send by Email</button>
+        <button onclick="saveToPhone()">Save to My Phone</button>
     </div>
 
     <script>
-        // Elements
-        const downloadVcard = document.getElementById('downloadVcard');
-        const contactModal = document.getElementById('contactModal');
-        const emailModal = document.getElementById('emailModal');
-        const closeModal = document.getElementById('closeModal');
-        const closeEmailModal = document.getElementById('closeEmailModal');
-        const sendByEmail = document.getElementById('sendByEmail');
-        const saveToPhone = document.getElementById('saveToPhone');
-        const sendEmail = document.getElementById('sendEmail');
+        // 检测设备
+        function isMobile() {
+            return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        }
 
-        // Open contact modal
-        downloadVcard.addEventListener('click', () => {
-            contactModal.style.display = 'block';
+        // 隐藏 "DOWNLOAD VCARD" 按钮
+        if (isMobile()) {
+            document.getElementById('downloadButton').style.display = 'none';
+        }
+
+        // 显示弹窗
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // 关闭弹窗
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') closePopup();
         });
 
-        // Close contact modal
-        closeModal.addEventListener('click', () => {
-            contactModal.style.display = 'none';
-        });
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
 
-        // Open email modal
-        sendByEmail.addEventListener('click', () => {
-            contactModal.style.display = 'none';
-            emailModal.style.display = 'block';
-        });
+        // 邮件功能
+        function sendByEmail() {
+            window.location.href = 'mailto:oliveroogle@gmail.com?subject=Contact Info&body=Please find my vCard attached.';
+        }
 
-        // Close email modal
-        closeEmailModal.addEventListener('click', () => {
-            emailModal.style.display = 'none';
-        });
-
-        // Close modals with ESC key or click outside
-        window.addEventListener('click', (event) => {
-            if (event.target === contactModal) contactModal.style.display = 'none';
-            if (event.target === emailModal) emailModal.style.display = 'none';
-        });
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                contactModal.style.display = 'none';
-                emailModal.style.display = 'none';
-            }
-        });
-
-        // Save to phone functionality
-        saveToPhone.addEventListener('click', () => {
+        // 下载图片功能
+        function saveToPhone() {
             const link = document.createElement('a');
-            link.href = 'https://forest-fr.github.io/oliver-fang-QR-code-for-contact.jpeg'; // Replace with your vCard file URL
+            link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliverfang.jpeg'; // 替换为有效路径
             link.download = 'oliver-fang-QR-code-for-contact.jpeg';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            contactModal.style.display = 'none';
-        });
+            closePopup();
+        }
 
-        // Send email functionality
-        sendEmail.addEventListener('click', () => {
-            const emailAddress = document.getElementById('emailInput').value;
-            if (emailAddress) {
-                alert(`vCard will be sent to ${emailAddress}`);
-                emailModal.style.display = 'none';
-            } else {
-                alert('Please enter a valid email address.');
-            }
-        });
+        // 点击遮罩层关闭弹窗
+        document.getElementById('overlay').onclick = closePopup;
     </script>
 </body>
 </html>
