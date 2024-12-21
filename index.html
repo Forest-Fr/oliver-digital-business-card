@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Card</title>
     <style>
+        /* General Styling */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
@@ -23,6 +24,59 @@
             text-align: center;
             max-width: 400px;
             width: 90%;
+        }
+
+        .card h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .card p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            gap: 10px;
+        }
+
+        .contact-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .contact-item a {
+            color: #FF6F61;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .social-icons img:hover {
+            transform: scale(1.1);
         }
 
         .btn {
@@ -48,6 +102,7 @@
             opacity: 0.8;
         }
 
+        /* Modal Styling */
         .modal {
             display: none;
             position: fixed;
@@ -56,6 +111,7 @@
             top: 0;
             width: 100%;
             height: 100%;
+            overflow: auto;
             background-color: rgba(0, 0, 0, 0.4);
         }
 
@@ -64,20 +120,20 @@
             margin: 10% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 30%; /* 动态调整宽度 */
             max-width: 400px;
-            min-width: 300px;
             text-align: center;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .close {
-            float: right;
+            position: absolute;
+            top: 10px;
+            right: 10px;
             font-size: 20px;
             font-weight: bold;
-            cursor: pointer;
             color: #555;
+            cursor: pointer;
         }
 
         .close:hover {
@@ -85,11 +141,22 @@
         }
 
         .email-input {
-            width: 90%;
+            width: 80%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 5;
         }
     </style>
 </head>
@@ -131,11 +198,12 @@
         <button id="downloadVcard" class="btn red">Download vCard</button>
     </div>
 
-    <!-- Popup -->
+    <!-- Modals -->
     <div id="contactModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2>Save Contact Data</h2>
+            <p>How would you like to save contact data?</p>
             <button id="sendByEmail" class="btn green">Send by Email</button>
             <button id="saveToPhone" class="btn red">Save to My Phone</button>
         </div>
@@ -145,6 +213,7 @@
         <div class="modal-content">
             <span class="close" id="closeEmailModal">&times;</span>
             <h2>Send by Email</h2>
+            <p>Send contact details using email.</p>
             <input type="email" id="emailInput" class="email-input" placeholder="Enter Email Address">
             <button id="sendEmail" class="btn green">Send</button>
         </div>
@@ -165,9 +234,13 @@
             contactModal.style.display = 'block';
         });
 
-        // Close contact modal
+        // Close modals
         closeModal.addEventListener('click', () => {
             contactModal.style.display = 'none';
+        });
+
+        closeEmailModal.addEventListener('click', () => {
+            emailModal.style.display = 'none';
         });
 
         // Open email modal
@@ -176,16 +249,11 @@
             emailModal.style.display = 'block';
         });
 
-        // Close email modal
-        closeEmailModal.addEventListener('click', () => {
-            emailModal.style.display = 'none';
-        });
-
         // Save to phone functionality
         saveToPhone.addEventListener('click', () => {
             const link = document.createElement('a');
-            link.href = './oliver-fang-QR-code-for-contact.vcf'; 
-            link.download = 'oliver-fang-QR-code-for-contact.vcf';
+            link.href = 'path-to-vcard/oliver-fang-QR-code-for-contact.jpeg';
+            link.download = 'oliver-fang-QR-code-for-contact.jpeg';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -195,11 +263,24 @@
         // Send email functionality
         sendEmail.addEventListener('click', () => {
             const emailAddress = document.getElementById('emailInput').value;
-            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress)) {
-                alert(`vCard will be sent to ${emailAddress}`);
+            if (emailAddress) {
+                window.location.href = `mailto:${emailAddress}?subject=Contact%20Card&body=Attached%20is%20the%20vCard%20file.`;
                 emailModal.style.display = 'none';
             } else {
                 alert('Please enter a valid email address.');
+            }
+        });
+
+        // Close modals with ESC key or outside click
+        window.addEventListener('click', (event) => {
+            if (event.target === contactModal) contactModal.style.display = 'none';
+            if (event.target === emailModal) emailModal.style.display = 'none';
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                contactModal.style.display = 'none';
+                emailModal.style.display = 'none';
             }
         });
     </script>
