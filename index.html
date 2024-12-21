@@ -25,6 +25,59 @@
             width: 90%;
         }
 
+        .card h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .card p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            gap: 10px;
+        }
+
+        .contact-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .contact-item a {
+            color: #FF6F61;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+
         .download-button {
             display: inline-block;
             margin-top: 20px;
@@ -93,7 +146,37 @@
     <div class="card">
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
-        <p>DJA: PoE switch brand by Dijiean Tech.</p>
+        <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
+        
+        <!-- Phone -->
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
+            <a href="tel:+12817839998">+1 281 783 9998</a>
+        </div>
+
+        <!-- Email -->
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            <p><a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
+        </div>
+
+        <!-- Company -->
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" alt="Company">
+            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
+        </div>
+
+        <!-- Social Icons -->
+        <div class="social-icons">
+            <a href="https://wa.me/12817839998" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
+            </a>
+            <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+            </a>
+        </div>
+
+        <!-- Download vCard button -->
         <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD VCARD</button>
     </div>
 
@@ -121,19 +204,16 @@
         const confirmText = document.getElementById("confirmText");
         const confirmAction = document.getElementById("confirmAction");
 
-        // 显示一级弹窗
         function showPopup() {
             popup.style.display = "block";
             overlay.style.display = "block";
         }
 
-        // 关闭一级弹窗
         function closePopup() {
             popup.style.display = "none";
             overlay.style.display = "none";
         }
 
-        // 显示二级确认弹窗（邮件）
         function showConfirmEmail() {
             closePopup();
             confirmText.innerText = "Do you want to send the vCard by email?";
@@ -142,7 +222,6 @@
             confirmPopup.style.display = "block";
         }
 
-        // 显示二级确认弹窗（下载）
         function showConfirmDownload() {
             closePopup();
             confirmText.innerText = "Do you want to download the vCard to your phone?";
@@ -151,23 +230,20 @@
             confirmPopup.style.display = "block";
         }
 
-        // 关闭二级确认弹窗
         function closeConfirmPopup() {
             confirmPopup.style.display = "none";
             overlay.style.display = "none";
         }
 
-        // 邮件功能
         function sendByEmail() {
             closeConfirmPopup();
             window.location.href = 'mailto:oliveroogle@gmail.com?subject=Contact Info&body=Please find my vCard attached.';
         }
 
-        // 下载功能
         function saveToPhone() {
             closeConfirmPopup();
             const link = document.createElement("a");
-            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg"; // 替换为有效路径
+            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg";
             link.download = "oliver-fang-QR-code-for-contact.jpeg";
             document.body.appendChild(link);
             link.click();
