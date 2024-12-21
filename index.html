@@ -78,6 +78,14 @@
             transform: scale(1.1);
         }
 
+        .social-icons a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #555;
+        }
+
         .download-button {
             display: inline-block;
             margin-top: 20px;
@@ -126,7 +134,7 @@
 
         .popup button, .confirm-popup button {
             display: inline-block;
-            margin: 10px 10px;
+            margin: 10px;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
@@ -141,6 +149,16 @@
         .popup .cancel, .confirm-popup .cancel {
             background-color: #FF6F61;
             color: white;
+        }
+
+        .confirm-popup .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .confirm-popup .nav-buttons button {
+            width: 45%;
         }
     </style>
 </head>
@@ -172,9 +190,11 @@
         <div class="social-icons">
             <a href="https://wa.me/12817839998" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
+                <span>WhatsApp</span>
             </a>
             <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+                <span>LinkedIn</span>
             </a>
         </div>
 
@@ -187,7 +207,7 @@
     <!-- 一级弹窗 -->
     <div class="popup" id="popup">
         <p>How would you like to save the contact?</p>
-        <button class="confirm" onclick="downloadEmailTemplate()">Save by Email</button>
+        <button class="confirm" onclick="showConfirmEmail()">Save by Email</button>
         <button class="confirm" onclick="showConfirmDownload()">Save to My Phone</button>
         <button class="cancel" onclick="closePopup()">Cancel</button>
     </div>
@@ -195,12 +215,14 @@
     <!-- 二级确认弹窗 -->
     <div class="confirm-popup" id="confirmPopup">
         <p id="confirmText"></p>
-        <button class="confirm" id="confirmAction"></button>
-        <button class="cancel" onclick="closeConfirmPopup()">Cancel</button>
+        <div class="nav-buttons">
+            <button class="cancel" onclick="goBack()">Back</button>
+            <button class="confirm" id="confirmAction">Confirm</button>
+        </div>
     </div>
 
     <script>
-        // 自动检测移动设备并隐藏按钮
+        // 自动检测设备并隐藏按钮
         function isMobile() {
             return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         }
@@ -237,18 +259,33 @@ Best regards,
             document.getElementById("overlay").style.display = "none";
         }
 
-        // 显示下载弹窗
+        // 显示确认保存到手机
         function showConfirmDownload() {
             closePopup();
             const confirmPopup = document.getElementById("confirmPopup");
-            confirmPopup.querySelector("#confirmText").innerText = "Download vCard to your device?";
+            confirmPopup.querySelector("#confirmText").innerText = "Do you want to download the vCard to your device?";
             confirmPopup.querySelector("#confirmAction").onclick = saveToPhone;
+            confirmPopup.style.display = "block";
+        }
+
+        // 显示确认保存到邮件
+        function showConfirmEmail() {
+            closePopup();
+            const confirmPopup = document.getElementById("confirmPopup");
+            confirmPopup.querySelector("#confirmText").innerText = "Do you want to save the contact via email?";
+            confirmPopup.querySelector("#confirmAction").onclick = downloadEmailTemplate;
             confirmPopup.style.display = "block";
         }
 
         // 关闭二级弹窗
         function closeConfirmPopup() {
             document.getElementById("confirmPopup").style.display = "none";
+        }
+
+        // 返回上一界面
+        function goBack() {
+            closeConfirmPopup();
+            showPopup();
         }
 
         // 保存到手机
@@ -289,6 +326,13 @@ EMAIL:oliveroogle@gmail.com
 ORG:Shen Zhen Dijiean Technology Co., Ltd
 URL:http://en.djakeji.com
 END:VCARD
+
+--simple-boundary
+Content-Type: image/jpeg; name="oliver-fang-QR-code-for-contact.jpeg"
+Content-Disposition: attachment; filename="oliver-fang-QR-code-for-contact.jpeg"
+
+[Binary Data for JPEG File]
+
 --simple-boundary--`;
             const blob = new Blob([emailContent], { type: "text/plain" });
             const link = document.createElement("a");
@@ -297,7 +341,7 @@ END:VCARD
             link.click();
         }
 
-        // 监听键盘 ESC 键
+        // 键盘 ESC 关闭弹窗
         document.addEventListener("keydown", (event) => {
             if (event.key === "Escape") {
                 closePopup();
