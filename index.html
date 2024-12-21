@@ -109,6 +109,8 @@
             border-radius: 10px;
             text-align: center;
             z-index: 10;
+            width: 80%;
+            max-width: 400px;
         }
 
         .overlay {
@@ -180,7 +182,7 @@
         <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD VCARD</button>
     </div>
 
-    <div class="overlay" id="overlay"></div>
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
 
     <!-- 一级弹窗 -->
     <div class="popup" id="popup">
@@ -204,16 +206,27 @@
         const confirmText = document.getElementById("confirmText");
         const confirmAction = document.getElementById("confirmAction");
 
+        // 自动识别设备，隐藏或显示按钮
+        function isMobile() {
+            return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        }
+        if (isMobile()) {
+            document.getElementById("downloadButton").style.display = "none";
+        }
+
+        // 显示一级弹窗
         function showPopup() {
             popup.style.display = "block";
             overlay.style.display = "block";
         }
 
+        // 关闭一级弹窗
         function closePopup() {
             popup.style.display = "none";
             overlay.style.display = "none";
         }
 
+        // 显示二级确认弹窗（邮件）
         function showConfirmEmail() {
             closePopup();
             confirmText.innerText = "Do you want to send the vCard by email?";
@@ -222,6 +235,7 @@
             confirmPopup.style.display = "block";
         }
 
+        // 显示二级确认弹窗（下载）
         function showConfirmDownload() {
             closePopup();
             confirmText.innerText = "Do you want to download the vCard to your phone?";
@@ -230,25 +244,37 @@
             confirmPopup.style.display = "block";
         }
 
+        // 关闭二级确认弹窗
         function closeConfirmPopup() {
             confirmPopup.style.display = "none";
             overlay.style.display = "none";
         }
 
+        // 邮件功能（下载邮件模板）
         function sendByEmail() {
             closeConfirmPopup();
-            window.location.href = 'mailto:oliveroogle@gmail.com?subject=Contact Info&body=Please find my vCard attached.';
+            const emailBody = `mailto:?subject=Contact Information&body=Please find attached the vCard of Oliver Fang.&attachment="Oliver-Fang.vcf"`;
+            window.location.href = emailBody;
         }
 
+        // 下载功能
         function saveToPhone() {
             closeConfirmPopup();
             const link = document.createElement("a");
-            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg";
+            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg"; // 替换为有效路径
             link.download = "oliver-fang-QR-code-for-contact.jpeg";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
+
+        // 键盘 ESC 关闭弹窗
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closePopup();
+                closeConfirmPopup();
+            }
+        });
     </script>
 </body>
 </html>
