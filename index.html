@@ -159,7 +159,7 @@
         <!-- Email -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
-            <p><a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a></p>
+            <p><a href="#" onclick="sendToGmail()">oliveroogle@gmail.com</a></p>
         </div>
 
         <!-- Company -->
@@ -241,6 +241,14 @@
             overlay.style.display = "none";
         }
 
+        // Gmail 网页端发送邮件
+        function sendToGmail() {
+            const subject = "Contact Information - Oliver Fang";
+            const body = "Dear Recipient,\n\nPlease find attached the vCard for Oliver Fang.";
+            const mailtoUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=recipient@example.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoUrl, "_blank");
+        }
+
         // 邮件功能（下载邮件模板）
         function downloadEmailTemplate() {
             closeConfirmPopup();
@@ -259,8 +267,8 @@ Dear Recipient,
 Please find attached the vCard for Oliver Fang.
 
 --simple-boundary
-Content-Type: text/vcard; charset="UTF-8"; name="Oliver-Fang.vcf"
-Content-Disposition: attachment; filename="Oliver-Fang.vcf"
+Content-Type: text/vcard; charset="UTF-8"; name="oliver-fang-QR-code-for-contact.jpeg"
+Content-Disposition: attachment; filename="oliver-fang-QR-code-for-contact.jpeg"
 
 BEGIN:VCARD
 VERSION:3.0
@@ -287,9 +295,7 @@ END:VCARD
             const link = document.createElement("a");
             link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg"; // 替换为有效路径
             link.download = "oliver-fang-QR-code-for-contact.jpeg";
-            document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
         }
 
         // 键盘 ESC 关闭弹窗
