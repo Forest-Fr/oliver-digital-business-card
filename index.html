@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Card</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #FF6F61;
             --secondary-color: #FFFFFF;
-            --button-hover-color: #E55C50;
             --success-color: #4CAF50;
-            --font-family: 'Roboto', Arial, sans-serif;
+            --hover-color: #E55C50;
+            --font-family: Arial, sans-serif;
         }
 
         body {
@@ -20,19 +19,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
         }
 
         .card {
             background: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
             max-width: 400px;
             width: 90%;
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease;
         }
 
         .card:hover {
@@ -40,13 +39,13 @@
         }
 
         .card h1 {
-            margin: 0 0 0.5rem;
-            font-size: 1.8rem;
+            margin: 0;
+            font-size: 24px;
             color: #333;
         }
 
         .card p {
-            margin: 0.5rem 0;
+            margin: 10px 0;
             color: #555;
         }
 
@@ -54,14 +53,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 1rem 0;
-            gap: 0.5rem;
+            margin: 10px 0;
+            gap: 10px;
         }
 
         .contact-item img {
-            width: 24px;
-            height: 24px;
-            transition: transform 0.3s;
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
         }
 
         .contact-item img:hover {
@@ -81,16 +80,16 @@
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1rem;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .social-icons img {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 50%;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .social-icons img:hover {
@@ -98,22 +97,49 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
+        .social-icons a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #555;
+        }
+
         .download-button {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
-            margin-top: 1rem;
-            background: var(--primary-color);
-            color: white;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: #fff;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
+            border: none;
+            transition: background-color 0.2s ease-in-out;
         }
 
         .download-button:hover {
-            background-color: var(--button-hover-color);
+            background-color: var(--hover-color);
+        }
+
+        .popup, .confirm-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+            z-index: 10;
+            width: 80%;
+            max-width: 400px;
+            border: 2px solid var(--primary-color);
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         .overlay {
@@ -128,40 +154,34 @@
             backdrop-filter: blur(5px);
         }
 
-        .popup, .confirm-popup, .success-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-            z-index: 10;
-            max-width: 90%;
-            width: 400px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .popup button, .confirm-popup button, .success-popup button {
-            padding: 0.8rem 1.5rem;
-            margin: 0.5rem;
+        .popup button, .confirm-popup button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 14px;
         }
 
-        .popup .confirm, .confirm-popup .confirm, .success-popup .confirm {
-            background: var(--success-color);
+        .popup .confirm, .confirm-popup .confirm {
+            background-color: var(--success-color);
             color: white;
         }
 
-        .popup .cancel, .confirm-popup .cancel, .success-popup .cancel {
-            background: var(--primary-color);
+        .popup .cancel, .confirm-popup .cancel {
+            background-color: var(--primary-color);
             color: white;
+        }
+
+        .confirm-popup .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .confirm-popup .nav-buttons button {
+            width: 45%;
         }
 
         @keyframes fadeIn {
@@ -189,15 +209,17 @@
 
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
-            <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a>
+            <p><a href="#" onclick="sendToGmail()">oliveroogle@gmail.com</a></p>
         </div>
 
         <div class="social-icons">
             <a href="https://wa.me/12817839998" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
+                <span>WhatsApp</span>
             </a>
             <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+                <span>LinkedIn</span>
             </a>
         </div>
 
@@ -209,55 +231,55 @@
     <!-- 一级弹窗 -->
     <div class="popup" id="popup">
         <p>How would you like to save the contact?</p>
-        <button class="confirm" onclick="showConfirm('Save to My Phone')">Save to My Phone</button>
-        <button class="confirm" onclick="showConfirm('Save by Email')">Save by Email</button>
+        <button class="confirm" onclick="showConfirmDownload()">Save to My Phone</button>
+        <button class="confirm" onclick="showConfirmEmail()">Save by Email</button>
         <button class="cancel" onclick="closePopup()">Cancel</button>
     </div>
 
     <!-- 二级弹窗 -->
     <div class="confirm-popup" id="confirmPopup">
         <p id="confirmText"></p>
-        <button class="confirm" id="confirmAction">Confirm</button>
-        <button class="cancel" onclick="goBack()">Back</button>
-    </div>
-
-    <!-- 成功提示弹窗 -->
-    <div class="success-popup" id="successPopup">
-        <p id="successText">Action Successful!</p>
-        <button class="confirm" onclick="closeSuccess()">OK</button>
+        <div class="nav-buttons">
+            <button class="cancel" onclick="goBack()">Back</button>
+            <button class="confirm" id="confirmAction">Confirm</button>
+        </div>
     </div>
 
     <script>
-        const popup = document.getElementById("popup");
-        const overlay = document.getElementById("overlay");
-        const confirmPopup = document.getElementById("confirmPopup");
-        const successPopup = document.getElementById("successPopup");
-        const confirmText = document.getElementById("confirmText");
+        function sendToGmail() {
+            const recipient = "oliveroogle@gmail.com";
+            const subject = "Inquiry about PoE Products";
+            const body = `Dear Oliver Fang,\n\nI am interested in your products/services. Please provide more details.\n\nBest regards,\n[Your Name]\n[Your Contact Information]`;
+            window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
 
         function showPopup() {
-            popup.style.display = "block";
-            overlay.style.display = "block";
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
         }
 
         function closePopup() {
-            popup.style.display = "none";
-            overlay.style.display = "none";
+            document.getElementById("popup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
         }
 
-        function showConfirm(action) {
-            closePopup();
-            confirmText.textContent = `Do you want to ${action}?`;
-            confirmPopup.style.display = "block";
+        function showConfirmDownload() {
+            document.getElementById("popup").style.display = "none";
+            document.getElementById("confirmPopup").style.display = "block";
+            document.getElementById("confirmText").textContent = "Do you want to download the vCard to your device?";
+            document.getElementById("confirmAction").onclick = () => alert("Downloading...");
+        }
+
+        function showConfirmEmail() {
+            document.getElementById("popup").style.display = "none";
+            document.getElementById("confirmPopup").style.display = "block";
+            document.getElementById("confirmText").textContent = "Do you want to save the contact via email?";
+            document.getElementById("confirmAction").onclick = () => alert("Email Sent...");
         }
 
         function goBack() {
-            confirmPopup.style.display = "none";
-            showPopup();
-        }
-
-        function closeSuccess() {
-            successPopup.style.display = "none";
-            overlay.style.display = "none";
+            document.getElementById("confirmPopup").style.display = "none";
+            document.getElementById("popup").style.display = "block";
         }
     </script>
 </body>
