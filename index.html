@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #FF6F61, #FFFFFF);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,22 +18,27 @@
 
         .card {
             background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             text-align: center;
-            max-width: 400px;
             width: 90%;
+            max-width: 400px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
         }
 
         .card h1 {
-            margin: 0;
-            font-size: 24px;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
             color: #333;
         }
 
         .card p {
-            margin: 10px 0;
+            margin: 0.5rem 0;
             color: #555;
         }
 
@@ -40,13 +46,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 10px 0;
             gap: 10px;
+            margin: 1rem 0;
         }
 
         .contact-item img {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s;
+        }
+
+        .contact-item img:hover {
+            transform: rotate(360deg);
         }
 
         .contact-item a {
@@ -62,64 +73,39 @@
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 1.5rem;
+            margin-top: 1rem;
         }
 
         .social-icons img {
             width: 40px;
             height: 40px;
-            cursor: pointer;
             border-radius: 50%;
-            transition: transform 0.2s;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .social-icons img:hover {
             transform: scale(1.1);
-        }
-
-        .social-icons a {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 12px;
-            color: #555;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .download-button {
             display: inline-block;
-            margin-top: 20px;
             padding: 10px 20px;
-            background-color: #FF6F61;
-            color: #fff;
+            margin-top: 1rem;
+            background: #FF6F61;
+            color: white;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 1rem;
             cursor: pointer;
-            border: none;
-            transition: background-color 0.2s;
+            transition: background-color 0.3s ease-in-out;
         }
 
         .download-button:hover {
             background-color: #E55C50;
-        }
-
-        .popup, .confirm-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            text-align: center;
-            z-index: 10;
-            width: 80%;
-            max-width: 400px;
-            border: 2px solid #FF6F61;
         }
 
         .overlay {
@@ -131,35 +117,54 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             z-index: 5;
+            backdrop-filter: blur(5px);
         }
 
-        .popup button, .confirm-popup button {
-            display: inline-block;
-            margin: 10px;
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .popup button {
             padding: 10px 20px;
+            margin: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 1rem;
         }
 
-        .popup .confirm, .confirm-popup .confirm {
-            background-color: #4CAF50;
+        .popup .confirm {
+            background: #4CAF50;
             color: white;
         }
 
-        .popup .cancel, .confirm-popup .cancel {
-            background-color: #FF6F61;
+        .popup .cancel {
+            background: #FF6F61;
             color: white;
         }
 
-        .confirm-popup .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .confirm-popup .nav-buttons button {
-            width: 45%;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
         }
     </style>
 </head>
@@ -169,186 +174,46 @@
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
         
-        <!-- Phone -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
             <a href="tel:+12817839998">+1 281 783 9998</a>
         </div>
 
-        <!-- Email -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
-            <p><a href="#" onclick="sendToGmail()">oliveroogle@gmail.com</a></p>
+            <a href="mailto:oliveroogle@gmail.com">oliveroogle@gmail.com</a>
         </div>
 
-        <!-- Company -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" alt="Company">
-            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
-        </div>
-
-        <!-- Social Icons -->
         <div class="social-icons">
             <a href="https://wa.me/12817839998" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
-                <span>WhatsApp</span>
             </a>
             <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
-                <span>LinkedIn</span>
             </a>
         </div>
 
-        <!-- Download vCard button -->
-        <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD VCARD</button>
+        <button class="download-button" onclick="showPopup()">DOWNLOAD VCARD</button>
     </div>
 
     <div class="overlay" id="overlay" onclick="closePopup()"></div>
 
-    <!-- 一级弹窗 -->
     <div class="popup" id="popup">
         <p>How would you like to save the contact?</p>
-        <button class="confirm" onclick="showConfirmEmail()">Save by Email</button>
-        <button class="confirm" onclick="showConfirmDownload()">Save to My Phone</button>
+        <button class="confirm" onclick="alert('Saved to device!')">Save to Device</button>
         <button class="cancel" onclick="closePopup()">Cancel</button>
     </div>
 
-    <!-- 二级确认弹窗 -->
-    <div class="confirm-popup" id="confirmPopup">
-        <p id="confirmText"></p>
-        <div class="nav-buttons">
-            <button class="cancel" onclick="goBack()">Back</button>
-            <button class="confirm" id="confirmAction">Confirm</button>
-        </div>
-    </div>
-
     <script>
-        // 自动检测设备并隐藏按钮
-        function isMobile() {
-            return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        }
-        if (isMobile()) {
-            document.getElementById("downloadButton").style.display = "none";
-        }
-
-        // Gmail 邮件功能
-        function sendToGmail() {
-            const recipient = "oliveroogle@gmail.com";
-            const subject = "Inquiry about PoE Products";
-            const body = `
-Dear Oliver Fang,
-
-I am interested in your products/services. Please provide more details.
-
-Best regards,
-[Your Name]
-[Your Contact Information]`;
-
-            const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailtoUrl;
-        }
-
-        // 显示一级弹窗
         function showPopup() {
             document.getElementById("popup").style.display = "block";
             document.getElementById("overlay").style.display = "block";
         }
 
-        // 关闭一级弹窗
         function closePopup() {
             document.getElementById("popup").style.display = "none";
             document.getElementById("overlay").style.display = "none";
         }
-
-        // 显示确认保存到手机
-        function showConfirmDownload() {
-            closePopup();
-            const confirmPopup = document.getElementById("confirmPopup");
-            confirmPopup.querySelector("#confirmText").innerText = "Do you want to download the vCard to your device?";
-            confirmPopup.querySelector("#confirmAction").onclick = saveToPhone;
-            confirmPopup.style.display = "block";
-        }
-
-        // 显示确认保存到邮件
-        function showConfirmEmail() {
-            closePopup();
-            const confirmPopup = document.getElementById("confirmPopup");
-            confirmPopup.querySelector("#confirmText").innerText = "Do you want to save the contact via email?";
-            confirmPopup.querySelector("#confirmAction").onclick = downloadEmailTemplate;
-            confirmPopup.style.display = "block";
-        }
-
-        // 关闭二级弹窗
-        function closeConfirmPopup() {
-            document.getElementById("confirmPopup").style.display = "none";
-        }
-
-        // 返回上一界面
-        function goBack() {
-            closeConfirmPopup();
-            showPopup();
-        }
-
-        // 保存到手机
-        function saveToPhone() {
-            closeConfirmPopup();
-            const link = document.createElement("a");
-            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg";
-            link.download = "oliver-fang-QR-code-for-contact.jpeg";
-            link.click();
-        }
-
-        // 下载邮件模板
-        function downloadEmailTemplate() {
-            const emailContent = `
-From: [Your Email]
-To: oliveroogle@gmail.com
-Subject: Contact Information - Oliver Fang
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="simple-boundary"
-
---simple-boundary
-Content-Type: text/plain; charset="UTF-8"
-
-Dear Oliver Fang,
-
-Please find attached my inquiry.
-
---simple-boundary
-Content-Type: text/vcard; charset="UTF-8"; name="oliver-fang-QR-code-for-contact.jpeg"
-Content-Disposition: attachment; filename="oliver-fang-QR-code-for-contact.jpeg"
-
-BEGIN:VCARD
-VERSION:3.0
-FN:Oliver Fang
-TITLE:Sales Manager
-TEL:+12817839998
-EMAIL:oliveroogle@gmail.com
-ORG:Shen Zhen Dijiean Technology Co., Ltd
-URL:http://en.djakeji.com
-END:VCARD
-
---simple-boundary
-Content-Type: image/jpeg; name="oliver-fang-QR-code-for-contact.jpeg"
-Content-Disposition: attachment; filename="oliver-fang-QR-code-for-contact.jpeg"
-
-[Binary Data for JPEG File]
-
---simple-boundary--`;
-            const blob = new Blob([emailContent], { type: "text/plain" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "Oliver-Fang-Contact.eml";
-            link.click();
-        }
-
-        // 键盘 ESC 关闭弹窗
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") {
-                closePopup();
-                closeConfirmPopup();
-            }
-        });
     </script>
 </body>
 </html>
