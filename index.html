@@ -1,330 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Card</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Card - Improved Version</title>
+  <style>
+    /* 
+      ============================
+      通用基础样式
+      ============================
+    */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        /********** 主卡片样式 **********/
-        .card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            /* 添加过渡与悬停效果 */
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        /* 当鼠标悬停在主卡片时的放大与阴影 */
-        .card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-        .card h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #333;
-        }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-        .card p {
-            margin: 10px 0;
-            color: #555;
-        }
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            gap: 10px;
-        }
+    button {
+      cursor: pointer;
+    }
 
-        .contact-item img {
-            width: 20px;
-            height: 20px;
-        }
+    /* 
+      ============================
+      卡片 (主界面) 样式 
+      ============================
+    */
+    .contact-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-        .contact-item a {
-            color: #FF6F61;
-            text-decoration: none;
-            font-weight: bold;
-        }
+      /* 添加过渡与悬停效果 */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .contact-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
 
-        .contact-item a:hover {
-            text-decoration: underline;
-        }
+    .contact-card__title {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 5px;
+    }
 
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
+    .contact-card__position {
+      margin: 10px 0;
+      color: #555;
+      font-size: 16px;
+    }
 
-        .social-icons img {
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: transform 0.2s;
-        }
+    .contact-card__desc {
+      margin: 10px 0;
+      color: #555;
+      line-height: 1.5;
+    }
+    .contact-card__desc a {
+      color: #FF6F61;
+      font-weight: bold;
+    }
+    .contact-card__desc a:hover {
+      text-decoration: underline;
+    }
 
-        .social-icons img:hover {
-            transform: scale(1.1);
-        }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 0;
+      font-size: 15px;
+      color: #333;
+    }
+    .contact-item img {
+      width: 20px;
+      height: 20px;
+    }
+    .contact-item a {
+      color: #FF6F61;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
 
-        .social-icons a {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 12px;
-            color: #555;
-        }
+    /* 
+      ============================
+      社交图标样式 
+      ============================
+    */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .social-icons a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+      color: #555;
+    }
+    .social-icons img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .social-icons img:hover {
+      transform: scale(1.1);
+    }
 
-        /********** 下载按钮样式 **********/
-        .download-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #FF6F61;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.2s;
-        }
-        /* 按钮悬停 */
-        .download-button:hover {
-            background-color: #E55C50;
-        }
+    /* 
+      ============================
+      下载按钮样式 
+      ============================
+    */
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 16px;
+      border: none;
+      color: #fff;
+      background-color: #FF6F61;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .btn:hover,
+    .btn:focus {
+      background-color: #E55C50;
+      transform: scale(1.02);
+    }
 
-        /********** 弹窗和遮罩层 **********/
-        .popup, .confirm-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            text-align: center;
-            z-index: 10;
-            width: 80%;
-            max-width: 400px;
-            border: 2px solid #FF6F61;
-            /* 添加过渡与悬停效果 */
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        /* 悬停时的放大与阴影 */
-        .popup:hover, .confirm-popup:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
+    /* 
+      ============================
+      弹窗 (二级/三级界面) 
+      ============================
+    */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 5;
+      /* 渐入渐出动画 */
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .overlay.active {
+      display: block;
+      opacity: 1;
+    }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 5;
-        }
+    .popup,
+    .confirm-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      text-align: center;
+      z-index: 10;
+      width: 80%;
+      max-width: 400px;
+      border: 2px solid #FF6F61;
 
-        .popup button, .confirm-popup button {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            /* 添加过渡效果 */
-            transition: background-color 0.2s, transform 0.2s;
-        }
-        /* 按钮悬停时的微动画 */
-        .popup button:hover, .confirm-popup button:hover {
-            transform: scale(1.02);
-            filter: brightness(0.95);
-        }
+      /* 渐入渐出动画 */
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .popup.active,
+    .confirm-popup.active {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.02);
+    }
 
-        .popup .confirm, .confirm-popup .confirm {
-            background-color: #4CAF50;
-            color: white;
-        }
+    /* 按钮外观统一 */
+    .popup button,
+    .confirm-popup button {
+      margin: 10px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: none;
+      color: #fff;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .popup button:hover,
+    .confirm-popup button:hover {
+      transform: scale(1.02);
+      filter: brightness(0.95);
+    }
 
-        .popup .cancel, .confirm-popup .cancel {
-            background-color: #FF6F61;
-            color: white;
-        }
+    /* 确认和取消的按钮区分 */
+    .btn-confirm {
+      background-color: #4CAF50;
+    }
+    .btn-cancel {
+      background-color: #FF6F61;
+    }
 
-        .confirm-popup .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .confirm-popup .nav-buttons button {
-            width: 45%;
-        }
-    </style>
+    .confirm-popup__nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .confirm-popup__nav-buttons button {
+      width: 45%;
+    }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Oliver Fang</h1>
-        <p>Sales Manager</p>
-        <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-        
-        <!-- Phone -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
-            <a href="tel:+12817839998">+1 281 783 9998</a>
-        </div>
+  <main class="contact-card" aria-labelledby="contactCardTitle">
+    <!-- 主卡片区域 -->
+    <h1 class="contact-card__title" id="contactCardTitle">Oliver Fang</h1>
+    <p class="contact-card__position">Sales Manager</p>
+    <p class="contact-card__desc">
+      DJA: PoE switch brand by Dijiean Tech. Visit:
+      <a href="http://en.djakeji.com" target="_blank" rel="noopener">
+        en.djakeji.com
+      </a>
+    </p>
 
-        <!-- Email -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
-            <p><a href="#" onclick="sendToGmail()">oliveroogle@gmail.com</a></p>
-        </div>
-
-        <!-- Company -->
-        <div class="contact-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" alt="Company">
-            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
-        </div>
-
-        <!-- Social Icons -->
-        <div class="social-icons">
-            <a href="https://wa.me/12817839998" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
-                <span>WhatsApp</span>
-            </a>
-            <a href="https://linkedin.com/in/oliver-f-448b8a287" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
-                <span>LinkedIn</span>
-            </a>
-        </div>
-
-        <!-- Download vCard button -->
-        <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD VCARD</button>
+    <!-- 联系信息 -->
+    <div class="contact-item">
+      <img 
+        src="https://cdn-icons-png.flaticon.com/512/126/126509.png" 
+        alt="Phone icon" 
+      />
+      <a href="tel:+12817839998">+1 281 783 9998</a>
     </div>
 
-    <div class="overlay" id="overlay" onclick="closePopup()"></div>
-
-    <!-- 一级弹窗 -->
-    <div class="popup" id="popup">
-        <p>How would you like to save the contact?</p>
-        <button class="confirm" onclick="showConfirmEmail()">Save by Email</button>
-        <button class="confirm" onclick="showConfirmDownload()">Save to My Phone</button>
-        <button class="cancel" onclick="closePopup()">Cancel</button>
+    <div class="contact-item">
+      <img 
+        src="https://cdn-icons-png.flaticon.com/512/732/732200.png" 
+        alt="Envelope icon"
+      />
+      <a href="#" id="sendGmailLink">oliveroogle@gmail.com</a>
     </div>
 
-    <!-- 二级确认弹窗 -->
-    <div class="confirm-popup" id="confirmPopup">
-        <p id="confirmText"></p>
-        <div class="nav-buttons">
-            <button class="cancel" onclick="goBack()">Back</button>
-            <button class="confirm" id="confirmAction">Confirm</button>
-        </div>
+    <div class="contact-item">
+      <img 
+        src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" 
+        alt="Company icon"
+      />
+      <p>Shen Zhen Dijiean Technology Co., Ltd</p>
     </div>
 
-    <script>
-        // 自动检测设备并隐藏按钮
-        function isMobile() {
-            return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        }
-        if (isMobile()) {
-            document.getElementById("downloadButton").style.display = "none";
-        }
+    <!-- 社交图标 -->
+    <div class="social-icons">
+      <a 
+        href="https://wa.me/12817839998" 
+        target="_blank" 
+        rel="noopener"
+        aria-label="WhatsApp"
+      >
+        <img 
+          src="https://cdn-icons-png.flaticon.com/512/124/124034.png" 
+          alt="WhatsApp icon" 
+        />
+        <span>WhatsApp</span>
+      </a>
 
-        // Gmail 邮件功能
-        function sendToGmail() {
-            const recipient = "oliveroogle@gmail.com";
-            const subject = "Inquiry about PoE Products";
-            const body = `
+      <a 
+        href="https://linkedin.com/in/oliver-f-448b8a287" 
+        target="_blank" 
+        rel="noopener"
+        aria-label="LinkedIn"
+      >
+        <img 
+          src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" 
+          alt="LinkedIn icon" 
+        />
+        <span>LinkedIn</span>
+      </a>
+    </div>
+
+    <!-- 下载vCard按钮（PC端显示） -->
+    <button class="btn" id="downloadBtn" type="button">
+      DOWNLOAD VCARD
+    </button>
+  </main>
+
+  <!-- 遮罩层 -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- 一级弹窗 -->
+  <div class="popup" id="popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+    <h2 id="popupTitle">How would you like to save the contact?</h2>
+    <button class="btn-confirm" type="button" id="btnSaveByEmail">Save by Email</button>
+    <button class="btn-confirm" type="button" id="btnSaveToPhone">Save to My Phone</button>
+    <button class="btn-cancel" type="button" id="btnCancelPopup">Cancel</button>
+  </div>
+
+  <!-- 二级确认弹窗 -->
+  <div class="confirm-popup" id="confirmPopup" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <p id="confirmTitle"></p>
+    <div class="confirm-popup__nav-buttons">
+      <button class="btn-cancel" type="button" id="btnBack">Back</button>
+      <button class="btn-confirm" type="button" id="btnConfirmAction">Confirm</button>
+    </div>
+  </div>
+
+  <script>
+    /*
+      ============================
+      JS逻辑与事件绑定
+      ============================
+    */
+    // 1. 自动检测设备并隐藏按钮
+    function isMobile() {
+      return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    }
+
+    const downloadBtn = document.getElementById('downloadBtn');
+    if (isMobile()) {
+      downloadBtn.style.display = 'none';
+    }
+
+    // 2. Gmail 邮件功能
+    const sendGmailLink = document.getElementById('sendGmailLink');
+    sendGmailLink.addEventListener('click', (e) => {
+      e.preventDefault(); // 阻止默认点击
+      sendToGmail();
+    });
+
+    function sendToGmail() {
+      const recipient = 'oliveroogle@gmail.com';
+      const subject = 'Inquiry about PoE Products';
+      const body = `
 Dear Oliver Fang,
 
 I am interested in your products/services. Please provide more details.
 
 Best regards,
 [Your Name]
-[Your Contact Information]`;
+[Your Contact Information]
+      `.trim();
 
-            const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailtoUrl;
-        }
+      const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoUrl;
+    }
 
-        // 显示一级弹窗
-        function showPopup() {
-            document.getElementById("popup").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
-        }
+    // 3. 弹窗相关
+    const overlay = document.getElementById('overlay');
+    const popup = document.getElementById('popup');
+    const confirmPopup = document.getElementById('confirmPopup');
+    const confirmTitle = document.getElementById('confirmTitle');
+    const btnConfirmAction = document.getElementById('btnConfirmAction');
 
-        // 关闭一级弹窗
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        }
+    // 打开弹窗
+    function openPopup(targetPopup) {
+      overlay.classList.add('active');
+      targetPopup.classList.add('active');
+      // 为了可访问性，自动聚焦到弹窗内按钮
+      // 例如先聚焦弹窗的“Cancel”按钮
+      if (targetPopup.id === 'popup') {
+        document.getElementById('btnCancelPopup').focus();
+      } else {
+        document.getElementById('btnBack').focus();
+      }
+    }
 
-        // 显示确认保存到手机
-        function showConfirmDownload() {
-            closePopup();
-            const confirmPopup = document.getElementById("confirmPopup");
-            confirmPopup.querySelector("#confirmText").innerText = "Do you want to download the vCard to your device?";
-            confirmPopup.querySelector("#confirmAction").onclick = saveToPhone;
-            confirmPopup.style.display = "block";
-        }
+    // 关闭弹窗
+    function closePopup(targetPopup) {
+      overlay.classList.remove('active');
+      targetPopup.classList.remove('active');
+    }
 
-        // 显示确认保存到邮件
-        function showConfirmEmail() {
-            closePopup();
-            const confirmPopup = document.getElementById("confirmPopup");
-            confirmPopup.querySelector("#confirmText").innerText = "Do you want to save the contact via email?";
-            confirmPopup.querySelector("#confirmAction").onclick = downloadEmailTemplate;
-            confirmPopup.style.display = "block";
-        }
+    // 一级弹窗事件
+    downloadBtn.addEventListener('click', () => {
+      openPopup(popup);
+    });
+    document.getElementById('btnCancelPopup').addEventListener('click', () => {
+      closePopup(popup);
+    });
+    // 保存到手机
+    document.getElementById('btnSaveToPhone').addEventListener('click', () => {
+      closePopup(popup);
+      confirmTitle.textContent = 'Do you want to download the vCard to your device?';
+      btnConfirmAction.onclick = saveToPhone;
+      openPopup(confirmPopup);
+    });
+    // 保存到邮箱
+    document.getElementById('btnSaveByEmail').addEventListener('click', () => {
+      closePopup(popup);
+      confirmTitle.textContent = 'Do you want to save the contact via email?';
+      btnConfirmAction.onclick = downloadEmailTemplate;
+      openPopup(confirmPopup);
+    });
 
-        // 关闭二级弹窗
-        function closeConfirmPopup() {
-            document.getElementById("confirmPopup").style.display = "none";
-        }
+    // 二级弹窗事件
+    document.getElementById('btnBack').addEventListener('click', () => {
+      closePopup(confirmPopup);
+      // 返回一级弹窗
+      openPopup(popup);
+    });
 
-        // 返回上一界面
-        function goBack() {
-            closeConfirmPopup();
-            showPopup();
-        }
+    // 下载到手机(二维码或者vCard等文件)
+    function saveToPhone() {
+      closePopup(confirmPopup);
+      const link = document.createElement('a');
+      link.href = 'https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg';
+      link.download = 'oliver-fang-QR-code-for-contact.jpeg';
+      link.click();
+    }
 
-        // 保存到手机
-        function saveToPhone() {
-            closeConfirmPopup();
-            const link = document.createElement("a");
-            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg";
-            link.download = "oliver-fang-QR-code-for-contact.jpeg";
-            link.click();
-        }
-
-        // 下载邮件模板
-        function downloadEmailTemplate() {
-            const emailContent = `
+    // 下载邮件模板
+    function downloadEmailTemplate() {
+      closePopup(confirmPopup);
+      const emailContent = `
 From: [Your Email]
 To: oliveroogle@gmail.com
 Subject: Contact Information - Oliver Fang
@@ -358,21 +478,29 @@ Content-Disposition: attachment; filename="oliver-fang-QR-code-for-contact.jpeg"
 
 [Binary Data for JPEG File]
 
---simple-boundary--`;
-            const blob = new Blob([emailContent], { type: "text/plain" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "Oliver-Fang-Contact.eml";
-            link.click();
-        }
+--simple-boundary--
+      `.trim();
 
-        // 键盘 ESC 关闭弹窗
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") {
-                closePopup();
-                closeConfirmPopup();
-            }
-        });
-    </script>
+      const blob = new Blob([emailContent], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Oliver-Fang-Contact.eml';
+      link.click();
+    }
+
+    // 4. 点击遮罩层关闭弹窗
+    overlay.addEventListener('click', () => {
+      closePopup(popup);
+      closePopup(confirmPopup);
+    });
+
+    // 5. 键盘 ESC 关闭弹窗
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closePopup(popup);
+        closePopup(confirmPopup);
+      }
+    });
+  </script>
 </body>
 </html>
