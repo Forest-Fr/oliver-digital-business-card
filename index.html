@@ -6,24 +6,31 @@
     <title>Contact Card</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #FF6F61;
+            --secondary-color: #FFFFFF;
+            --button-hover-color: #E55C50;
+            --font-family: 'Roboto', Arial, sans-serif;
+        }
+
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            background: linear-gradient(135deg, #FF6F61, #FFFFFF);
+            font-family: var(--font-family);
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
 
         .card {
             background: #fff;
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             text-align: center;
-            width: 90%;
             max-width: 400px;
+            width: 90%;
             transition: transform 0.3s ease-in-out;
         }
 
@@ -46,7 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 0.5rem;
             margin: 1rem 0;
         }
 
@@ -61,7 +68,7 @@
         }
 
         .contact-item a {
-            color: #FF6F61;
+            color: var(--primary-color);
             text-decoration: none;
             font-weight: bold;
         }
@@ -92,9 +99,8 @@
 
         .download-button {
             display: inline-block;
-            padding: 10px 20px;
-            margin-top: 1rem;
-            background: #FF6F61;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-color);
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -105,7 +111,7 @@
         }
 
         .download-button:hover {
-            background-color: #E55C50;
+            background-color: var(--button-hover-color);
         }
 
         .overlay {
@@ -117,7 +123,6 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             z-index: 5;
-            backdrop-filter: blur(5px);
         }
 
         .popup {
@@ -131,15 +136,15 @@
             border-radius: 12px;
             text-align: center;
             z-index: 10;
-            width: 90%;
-            max-width: 400px;
+            max-width: 90%;
+            width: 400px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             animation: fadeIn 0.3s ease-in-out;
         }
 
         .popup button {
-            padding: 10px 20px;
-            margin: 10px;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -152,7 +157,7 @@
         }
 
         .popup .cancel {
-            background: #FF6F61;
+            background: var(--primary-color);
             color: white;
         }
 
@@ -173,7 +178,7 @@
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-        
+
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
             <a href="tel:+12817839998">+1 281 783 9998</a>
