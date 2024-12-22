@@ -3,28 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact Card - Advanced Improved Version</title>
-  <style>
-    /************************************************
-     * 
-     * [可选] 在真实项目中，建议将下方所有 CSS 移动到
-     * 独立的 .css 文件，通过 <link> 引入.
-     *
-    ************************************************/
+  <title>Contact Card - Further Optimized</title>
 
-    /* 
-      ============================
-      通用基础样式
-      ============================
-    */
+  <!-- =============================
+       [可选] 如果想分离CSS
+       <link rel="stylesheet" href="styles.css" />
+       ============================= -->
+
+  <style>
+    :root {
+      --primary-color: #FF6F61;  /* 主色调 */
+      --primary-color-dark: #E55C50; 
+      --confirm-color: #4CAF50;
+      --cancel-color: #FF6F61;
+      --white-color: #fff;
+      --font-family: Arial, sans-serif;
+      --transition-duration: 0.3s;
+    }
+
+    /********************************
+     * 通用重置与基础样式
+     ********************************/
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
+      font-family: var(--font-family);
+      background: linear-gradient(to bottom, var(--primary-color), #FFFFFF);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -35,32 +42,30 @@
       text-decoration: none;
       color: inherit;
     }
-    img {
-      display: block;
-      max-width: 100%;
-    }
     button {
       cursor: pointer;
     }
     button:focus {
-      outline: 3px solid #FF6F61; /* 聚焦样式，更清晰 */
+      outline: 3px solid var(--primary-color);
       outline-offset: 2px;
     }
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-    /* 
-      ============================
-      卡片 (主界面) 样式 
-      ============================
-    */
+    /********************************
+     * 主卡片（一级界面）
+     ********************************/
     .contact-card {
-      background: #fff;
+      background: var(--white-color);
       padding: 20px;
       border-radius: 10px;
       text-align: center;
       max-width: 400px;
       width: 90%;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
     }
     .contact-card:hover {
       transform: scale(1.02);
@@ -82,7 +87,7 @@
       line-height: 1.5;
     }
     .contact-card__desc a {
-      color: #FF6F61;
+      color: var(--primary-color);
       font-weight: bold;
     }
     .contact-card__desc a:hover {
@@ -103,18 +108,16 @@
       height: 20px;
     }
     .contact-item a {
-      color: #FF6F61;
+      color: var(--primary-color);
       font-weight: bold;
     }
     .contact-item a:hover {
       text-decoration: underline;
     }
 
-    /* 
-      ============================
-      社交图标样式 
-      ============================
-    */
+    /********************************
+     * 社交图标区域
+     ********************************/
     .social-icons {
       display: flex;
       justify-content: center;
@@ -127,6 +130,7 @@
       align-items: center;
       font-size: 12px;
       color: #555;
+      text-align: center;
     }
     .social-icons img {
       width: 40px;
@@ -138,11 +142,9 @@
       transform: scale(1.1);
     }
 
-    /* 
-      ============================
-      下载按钮样式 
-      ============================
-    */
+    /********************************
+     * 下载按钮
+     ********************************/
     .btn {
       display: inline-block;
       margin-top: 20px;
@@ -151,21 +153,19 @@
       font-weight: bold;
       font-size: 16px;
       border: none;
-      color: #fff;
-      background-color: #FF6F61;
+      color: var(--white-color);
+      background-color: var(--primary-color);
       transition: background-color 0.2s ease, transform 0.2s ease;
     }
     .btn:hover,
     .btn:focus {
-      background-color: #E55C50;
+      background-color: var(--primary-color-dark);
       transform: scale(1.02);
     }
 
-    /* 
-      ============================
-      弹窗 (二级/三级界面) 
-      ============================
-    */
+    /********************************
+     * 弹窗相关
+     ********************************/
     .overlay {
       display: none;
       position: fixed;
@@ -175,32 +175,34 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
       z-index: 5;
+
+      /* 动画：淡入淡出 */
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity var(--transition-duration) ease;
     }
     .overlay.active {
       display: block;
       opacity: 1;
     }
 
-    .popup,
-    .confirm-popup {
+    .popup, .confirm-popup {
       display: none;
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #ffffff;
+      background-color: var(--white-color);
       padding: 20px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
       border-radius: 10px;
       text-align: center;
       z-index: 10;
       width: 80%;
       max-width: 400px;
-      border: 2px solid #FF6F61;
+      border: 2px solid var(--primary-color);
+
+      /* 过渡动画 */
       opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translate(-50%, -50%) scale(0.95);
+      transition: opacity var(--transition-duration) ease, transform var(--transition-duration) ease;
     }
     .popup.active,
     .confirm-popup.active {
@@ -209,16 +211,34 @@
       transform: translate(-50%, -50%) scale(1.02);
     }
 
-    /* 
-      按钮外观统一
-    */
+    /* 右上角关闭按钮（可选） */
+    .popup__close-btn,
+    .confirm-popup__close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-weight: bold;
+      font-size: 20px;
+      color: #666;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .popup__close-btn:hover,
+    .confirm-popup__close-btn:hover {
+      transform: scale(1.1);
+      color: #000;
+    }
+
+    /* 弹窗按钮外观 */
     .popup button,
     .confirm-popup button {
       margin: 10px;
       padding: 10px 20px;
       border-radius: 5px;
       border: none;
-      color: #fff;
+      color: var(--white-color);
       transition: background-color 0.2s ease, transform 0.2s ease;
     }
     .popup button:hover,
@@ -229,10 +249,10 @@
 
     /* 确认和取消的按钮区分 */
     .btn-confirm {
-      background-color: #4CAF50;
+      background-color: var(--confirm-color);
     }
     .btn-cancel {
-      background-color: #FF6F61;
+      background-color: var(--cancel-color);
     }
 
     .confirm-popup__nav-buttons {
@@ -244,10 +264,9 @@
       width: 45%;
     }
 
-    /* 
-      焦点困锁指示区 (仅用于演示, 可以隐藏或换成可视化更好的表现)
-      可在测试时查看效果
-    */
+    /********************************
+     * Focus Trap 调试可视化（可删除）
+     ********************************/
     .focus-trap-indicator {
       position: absolute;
       bottom: 5px;
@@ -266,12 +285,12 @@
   </style>
 </head>
 <body>
-  <!-- 焦点困锁调试指示 -->
+  <!-- Focus Trap调试指示（可删除） -->
   <div class="focus-trap-indicator" id="focusTrapIndicator">
     Focus trapped in dialog
   </div>
 
-  <!-- 主界面（卡片） -->
+  <!-- 主界面(卡片) -->
   <main class="contact-card" aria-labelledby="contactCardTitle">
     <h1 class="contact-card__title" id="contactCardTitle">Oliver Fang</h1>
     <p class="contact-card__position">Sales Manager</p>
@@ -333,8 +352,10 @@
       </a>
     </div>
 
-    <!-- 下载 vCard 按钮（PC端显示） -->
-    <button class="btn" id="downloadBtn" type="button">DOWNLOAD VCARD</button>
+    <!-- 下载vCard按钮（PC端显示） -->
+    <button class="btn" id="downloadBtn" type="button">
+      DOWNLOAD VCARD
+    </button>
   </main>
 
   <!-- 遮罩层 -->
@@ -348,7 +369,12 @@
     aria-modal="true" 
     aria-labelledby="popupTitle"
   >
-    <h2 id="popupTitle">How would you like to save the contact?</h2>
+    <!-- 右上角关闭弹窗按钮（可选） -->
+    <button class="popup__close-btn" aria-label="Close dialog" id="popupCloseBtn">×</button>
+
+    <h2 id="popupTitle" role="heading" aria-level="1">
+      How would you like to save the contact?
+    </h2>
     <button class="btn-confirm" type="button" id="btnSaveByEmail">Save by Email</button>
     <button class="btn-confirm" type="button" id="btnSaveToPhone">Save to My Phone</button>
     <button class="btn-cancel" type="button" id="btnCancelPopup">Cancel</button>
@@ -362,6 +388,9 @@
     aria-modal="true"
     aria-labelledby="confirmTitle"
   >
+    <!-- 右上角关闭弹窗按钮（可选） -->
+    <button class="confirm-popup__close-btn" aria-label="Close dialog" id="confirmCloseBtn">×</button>
+
     <p id="confirmTitle"></p>
     <div class="confirm-popup__nav-buttons">
       <button class="btn-cancel" type="button" id="btnBack">Back</button>
@@ -369,28 +398,29 @@
     </div>
   </div>
 
+  <!-- =============================
+       [可选] 如果想分离JS
+       <script src="app.js"></script>
+       ============================= -->
   <script>
-    /************************************************
-     * 
-     * [可选] 在真实项目中，建议将下方所有 JS 移动到
-     * 独立的 .js 文件，通过 <script src="xxx.js"></script> 引入.
-     *
-    ************************************************/
-
-    /*******************************************
-     * 1. 自动检测设备并隐藏下载按钮（PC/移动端）
-     *******************************************/
+    /*
+      ============================
+      1. 自动检测设备并隐藏下载按钮（PC/移动端）
+      ============================
+    */
+    const downloadBtn = document.getElementById('downloadBtn');
     function isMobile() {
       return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     }
-    const downloadBtn = document.getElementById('downloadBtn');
     if (isMobile()) {
       downloadBtn.style.display = 'none';
     }
 
-    /*******************************************
-     * 2. Gmail 邮件功能
-     *******************************************/
+    /*
+      ============================
+      2. Gmail 邮件功能
+      ============================
+    */
     const sendGmailLink = document.getElementById('sendGmailLink');
     sendGmailLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -412,9 +442,11 @@ Best regards,
       window.location.href = mailtoUrl;
     }
 
-    /*******************************************
-     * 3. 弹窗逻辑 + 焦点困锁 (Focus Trap)
-     *******************************************/
+    /*
+      ============================
+      3. 弹窗逻辑 + 焦点困锁 (Focus Trap)
+      ============================
+    */
     const overlay = document.getElementById('overlay');
     const popup = document.getElementById('popup');
     const confirmPopup = document.getElementById('confirmPopup');
@@ -422,26 +454,33 @@ Best regards,
     const btnConfirmAction = document.getElementById('btnConfirmAction');
     const focusTrapIndicator = document.getElementById('focusTrapIndicator');
 
-    // 为了记住触发弹窗的元素，用以关闭后回到该元素
+    // 右上角关闭按钮
+    const popupCloseBtn = document.getElementById('popupCloseBtn');
+    const confirmCloseBtn = document.getElementById('confirmCloseBtn');
+
+    // 记住触发弹窗的元素，用以关闭后回到该元素
     let lastActiveElement = null;
 
-    /**** 统一的打开 / 关闭函数 ****/
+    // 统一的打开 / 关闭函数
     function openPopup(targetPopup) {
-      lastActiveElement = document.activeElement; // 记录当前焦点所在
+      lastActiveElement = document.activeElement; // 记录当前焦点
 
       overlay.classList.add('active');
       targetPopup.classList.add('active');
       overlay.setAttribute('aria-hidden', 'false');
 
       // 自动聚焦到弹窗内的第一个按钮
-      const firstButton = targetPopup.querySelector('button');
-      if (firstButton) firstButton.focus();
+      const firstButton = targetPopup.querySelector('button:not(.popup__close-btn):not(.confirm-popup__close-btn)');
+      if (firstButton) {
+        firstButton.focus();
+      }
 
       // 启动焦点困锁
       document.addEventListener('keydown', focusTrap);
       focusTrapIndicator.classList.add('active');
     }
     function closePopup(targetPopup) {
+      // 为了增加“淡出”动画效果，可以先移除 active，然后等动画结束后再 display:none
       overlay.classList.remove('active');
       targetPopup.classList.remove('active');
       overlay.setAttribute('aria-hidden', 'true');
@@ -456,13 +495,15 @@ Best regards,
       }
     }
 
-    /**** 焦点困锁逻辑 (Focus Trap) ****/
+    // 焦点困锁( Focus Trap )
     function focusTrap(e) {
       const activePopup = document.querySelector('.popup.active, .confirm-popup.active');
       if (!activePopup) return;
 
       const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
       const focusableElements = activePopup.querySelectorAll(focusableSelectors);
+      if (!focusableElements.length) return; // 没有可聚焦元素时直接返回
+
       const firstFocusable = focusableElements[0];
       const lastFocusable = focusableElements[focusableElements.length - 1];
 
@@ -474,6 +515,10 @@ Best regards,
 
       // 按 Tab 键时
       if (e.key === 'Tab') {
+        if (focusableElements.length === 1) {
+          e.preventDefault();
+          return; // 只有一个可聚焦元素，则一直聚焦它
+        }
         // Shift + Tab
         if (e.shiftKey) {
           if (document.activeElement === firstFocusable) {
@@ -491,38 +536,53 @@ Best regards,
       }
     }
 
-    /*******************************************
-     * 4. 一级弹窗 (How to save contact?)
-     *******************************************/
+    /*
+      ============================
+      4. 一级弹窗 (How to save contact?)
+      ============================
+    */
+    const btnCancelPopup = document.getElementById('btnCancelPopup');
+    const btnSaveByEmail = document.getElementById('btnSaveByEmail');
+    const btnSaveToPhone = document.getElementById('btnSaveToPhone');
+
     downloadBtn.addEventListener('click', () => {
       openPopup(popup);
     });
-    document.getElementById('btnCancelPopup').addEventListener('click', () => {
+    popupCloseBtn.addEventListener('click', () => {
+      closePopup(popup);
+    });
+    btnCancelPopup.addEventListener('click', () => {
       closePopup(popup);
     });
     // 保存到手机
-    document.getElementById('btnSaveToPhone').addEventListener('click', () => {
+    btnSaveToPhone.addEventListener('click', () => {
       closePopup(popup);
       confirmTitle.textContent = 'Do you want to download the vCard to your device?';
       btnConfirmAction.onclick = saveToPhone;
       openPopup(confirmPopup);
     });
     // 保存到邮箱
-    document.getElementById('btnSaveByEmail').addEventListener('click', () => {
+    btnSaveByEmail.addEventListener('click', () => {
       closePopup(popup);
       confirmTitle.textContent = 'Do you want to save the contact via email?';
       btnConfirmAction.onclick = downloadEmailTemplate;
       openPopup(confirmPopup);
     });
 
-    /*******************************************
-     * 5. 二级弹窗 (Confirm dialog)
-     *******************************************/
-    document.getElementById('btnBack').addEventListener('click', () => {
+    /*
+      ============================
+      5. 二级弹窗 (Confirm dialog)
+      ============================
+    */
+    const btnBack = document.getElementById('btnBack');
+    btnBack.addEventListener('click', () => {
       closePopup(confirmPopup);
       openPopup(popup);
     });
-    // 下载到手机(二维码或 vCard)
+    confirmCloseBtn.addEventListener('click', () => {
+      closePopup(confirmPopup);
+    });
+
     function saveToPhone() {
       closePopup(confirmPopup);
       const link = document.createElement('a');
@@ -530,7 +590,6 @@ Best regards,
       link.download = 'oliver-fang-QR-code-for-contact.jpeg';
       link.click();
     }
-    // 下载邮件模板
     function downloadEmailTemplate() {
       closePopup(confirmPopup);
       const emailContent = `
@@ -577,9 +636,11 @@ Content-Disposition: attachment; filename="oliver-fang-QR-code-for-contact.jpeg"
       link.click();
     }
 
-    /*******************************************
-     * 6. 点击遮罩层关闭任何已打开的弹窗
-     *******************************************/
+    /*
+      ============================
+      6. 点击遮罩层关闭任何已打开的弹窗
+      ============================
+    */
     overlay.addEventListener('click', () => {
       if (popup.classList.contains('active')) {
         closePopup(popup);
