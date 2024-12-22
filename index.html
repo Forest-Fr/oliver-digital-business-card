@@ -5,17 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Card</title>
     <style>
-        :root {
-            --primary-color: #FF6F61;
-            --secondary-color: #FFFFFF;
-            --success-color: #4CAF50;
-            --hover-color: #E55C50;
-            --font-family: Arial, sans-serif;
-        }
-
         body {
-            font-family: var(--font-family);
-            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #FF6F61, #FFFFFF);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,6 +15,7 @@
             margin: 0;
         }
 
+        /********** 主卡片样式 **********/
         .card {
             background: #fff;
             padding: 20px;
@@ -31,11 +24,13 @@
             text-align: center;
             max-width: 400px;
             width: 90%;
-            transition: transform 0.3s ease;
+            /* 添加过渡与悬停效果 */
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
+        /* 当鼠标悬停在主卡片时的放大与阴影 */
         .card:hover {
-            transform: translateY(-10px);
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .card h1 {
@@ -60,15 +55,10 @@
         .contact-item img {
             width: 20px;
             height: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .contact-item img:hover {
-            transform: rotate(360deg);
         }
 
         .contact-item a {
-            color: var(--primary-color);
+            color: #FF6F61;
             text-decoration: none;
             font-weight: bold;
         }
@@ -89,12 +79,11 @@
             height: 40px;
             cursor: pointer;
             border-radius: 50%;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
         }
 
         .social-icons img:hover {
             transform: scale(1.1);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .social-icons a {
@@ -105,11 +94,12 @@
             color: #555;
         }
 
+        /********** 下载按钮样式 **********/
         .download-button {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: var(--primary-color);
+            background-color: #FF6F61;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
@@ -117,13 +107,14 @@
             font-size: 16px;
             cursor: pointer;
             border: none;
-            transition: background-color 0.2s ease-in-out;
+            transition: background-color 0.2s;
         }
-
+        /* 按钮悬停 */
         .download-button:hover {
-            background-color: var(--hover-color);
+            background-color: #E55C50;
         }
 
+        /********** 弹窗和遮罩层 **********/
         .popup, .confirm-popup {
             display: none;
             position: fixed;
@@ -138,8 +129,14 @@
             z-index: 10;
             width: 80%;
             max-width: 400px;
-            border: 2px solid var(--primary-color);
-            animation: fadeIn 0.3s ease-in-out;
+            border: 2px solid #FF6F61;
+            /* 添加过渡与悬停效果 */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        /* 悬停时的放大与阴影 */
+        .popup:hover, .confirm-popup:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .overlay {
@@ -151,7 +148,6 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             z-index: 5;
-            backdrop-filter: blur(5px);
         }
 
         .popup button, .confirm-popup button {
@@ -161,16 +157,22 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            /* 添加过渡效果 */
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        /* 按钮悬停时的微动画 */
+        .popup button:hover, .confirm-popup button:hover {
+            transform: scale(1.02);
+            filter: brightness(0.95);
         }
 
         .popup .confirm, .confirm-popup .confirm {
-            background-color: var(--success-color);
+            background-color: #4CAF50;
             color: white;
         }
 
         .popup .cancel, .confirm-popup .cancel {
-            background-color: var(--primary-color);
+            background-color: #FF6F61;
             color: white;
         }
 
@@ -183,17 +185,6 @@
         .confirm-popup .nav-buttons button {
             width: 45%;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -60%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
     </style>
 </head>
 <body>
@@ -201,17 +192,26 @@
         <h1>Oliver Fang</h1>
         <p>Sales Manager</p>
         <p>DJA: PoE switch brand by Dijiean Tech. Visit: <a href="http://en.djakeji.com" target="_blank">en.djakeji.com</a></p>
-
+        
+        <!-- Phone -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Phone">
             <a href="tel:+12817839998">+1 281 783 9998</a>
         </div>
 
+        <!-- Email -->
         <div class="contact-item">
             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
             <p><a href="#" onclick="sendToGmail()">oliveroogle@gmail.com</a></p>
         </div>
 
+        <!-- Company -->
+        <div class="contact-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/1239/1239525.png" alt="Company">
+            <p>Shen Zhen Dijiean Technology Co., Ltd</p>
+        </div>
+
+        <!-- Social Icons -->
         <div class="social-icons">
             <a href="https://wa.me/12817839998" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp">
@@ -223,7 +223,8 @@
             </a>
         </div>
 
-        <button class="download-button" onclick="showPopup()">DOWNLOAD VCARD</button>
+        <!-- Download vCard button -->
+        <button class="download-button" id="downloadButton" onclick="showPopup()">DOWNLOAD VCARD</button>
     </div>
 
     <div class="overlay" id="overlay" onclick="closePopup()"></div>
@@ -231,12 +232,12 @@
     <!-- 一级弹窗 -->
     <div class="popup" id="popup">
         <p>How would you like to save the contact?</p>
-        <button class="confirm" onclick="showConfirmDownload()">Save to My Phone</button>
         <button class="confirm" onclick="showConfirmEmail()">Save by Email</button>
+        <button class="confirm" onclick="showConfirmDownload()">Save to My Phone</button>
         <button class="cancel" onclick="closePopup()">Cancel</button>
     </div>
 
-    <!-- 二级弹窗 -->
+    <!-- 二级确认弹窗 -->
     <div class="confirm-popup" id="confirmPopup">
         <p id="confirmText"></p>
         <div class="nav-buttons">
@@ -246,41 +247,132 @@
     </div>
 
     <script>
+        // 自动检测设备并隐藏按钮
+        function isMobile() {
+            return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        }
+        if (isMobile()) {
+            document.getElementById("downloadButton").style.display = "none";
+        }
+
+        // Gmail 邮件功能
         function sendToGmail() {
             const recipient = "oliveroogle@gmail.com";
             const subject = "Inquiry about PoE Products";
-            const body = `Dear Oliver Fang,\n\nI am interested in your products/services. Please provide more details.\n\nBest regards,\n[Your Name]\n[Your Contact Information]`;
-            window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const body = `
+Dear Oliver Fang,
+
+I am interested in your products/services. Please provide more details.
+
+Best regards,
+[Your Name]
+[Your Contact Information]`;
+
+            const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoUrl;
         }
 
+        // 显示一级弹窗
         function showPopup() {
             document.getElementById("popup").style.display = "block";
             document.getElementById("overlay").style.display = "block";
         }
 
+        // 关闭一级弹窗
         function closePopup() {
             document.getElementById("popup").style.display = "none";
             document.getElementById("overlay").style.display = "none";
         }
 
+        // 显示确认保存到手机
         function showConfirmDownload() {
-            document.getElementById("popup").style.display = "none";
-            document.getElementById("confirmPopup").style.display = "block";
-            document.getElementById("confirmText").textContent = "Do you want to download the vCard to your device?";
-            document.getElementById("confirmAction").onclick = () => alert("Downloading...");
+            closePopup();
+            const confirmPopup = document.getElementById("confirmPopup");
+            confirmPopup.querySelector("#confirmText").innerText = "Do you want to download the vCard to your device?";
+            confirmPopup.querySelector("#confirmAction").onclick = saveToPhone;
+            confirmPopup.style.display = "block";
         }
 
+        // 显示确认保存到邮件
         function showConfirmEmail() {
-            document.getElementById("popup").style.display = "none";
-            document.getElementById("confirmPopup").style.display = "block";
-            document.getElementById("confirmText").textContent = "Do you want to save the contact via email?";
-            document.getElementById("confirmAction").onclick = () => alert("Email Sent...");
+            closePopup();
+            const confirmPopup = document.getElementById("confirmPopup");
+            confirmPopup.querySelector("#confirmText").innerText = "Do you want to save the contact via email?";
+            confirmPopup.querySelector("#confirmAction").onclick = downloadEmailTemplate;
+            confirmPopup.style.display = "block";
         }
 
-        function goBack() {
+        // 关闭二级弹窗
+        function closeConfirmPopup() {
             document.getElementById("confirmPopup").style.display = "none";
-            document.getElementById("popup").style.display = "block";
         }
+
+        // 返回上一界面
+        function goBack() {
+            closeConfirmPopup();
+            showPopup();
+        }
+
+        // 保存到手机
+        function saveToPhone() {
+            closeConfirmPopup();
+            const link = document.createElement("a");
+            link.href = "https://forest-fr.github.io/oliver-digital-business-card/oliver-fang-QR-code-for-contact.jpeg";
+            link.download = "oliver-fang-QR-code-for-contact.jpeg";
+            link.click();
+        }
+
+        // 下载邮件模板
+        function downloadEmailTemplate() {
+            const emailContent = `
+From: [Your Email]
+To: oliveroogle@gmail.com
+Subject: Contact Information - Oliver Fang
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="simple-boundary"
+
+--simple-boundary
+Content-Type: text/plain; charset="UTF-8"
+
+Dear Oliver Fang,
+
+Please find attached my inquiry.
+
+--simple-boundary
+Content-Type: text/vcard; charset="UTF-8"; name="oliver-fang-QR-code-for-contact.jpeg"
+Content-Disposition: attachment; filename="oliver-fang-QR-code-for-contact.jpeg"
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Oliver Fang
+TITLE:Sales Manager
+TEL:+12817839998
+EMAIL:oliveroogle@gmail.com
+ORG:Shen Zhen Dijiean Technology Co., Ltd
+URL:http://en.djakeji.com
+END:VCARD
+
+--simple-boundary
+Content-Type: image/jpeg; name="oliver-fang-QR-code-for-contact.jpeg"
+Content-Disposition: attachment; filename="oliver-fang-QR-code-for-contact.jpeg"
+
+[Binary Data for JPEG File]
+
+--simple-boundary--`;
+            const blob = new Blob([emailContent], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Oliver-Fang-Contact.eml";
+            link.click();
+        }
+
+        // 键盘 ESC 关闭弹窗
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closePopup();
+                closeConfirmPopup();
+            }
+        });
     </script>
 </body>
 </html>
