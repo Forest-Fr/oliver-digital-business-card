@@ -20,7 +20,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
 
@@ -128,7 +128,7 @@
             backdrop-filter: blur(5px);
         }
 
-        .popup {
+        .popup, .confirm-popup, .success-popup {
             display: none;
             position: fixed;
             top: 50%;
@@ -145,7 +145,7 @@
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        .popup button {
+        .popup button, .confirm-popup button, .success-popup button {
             padding: 0.8rem 1.5rem;
             margin: 0.5rem;
             border: none;
@@ -154,12 +154,12 @@
             font-size: 1rem;
         }
 
-        .popup .confirm {
+        .popup .confirm, .confirm-popup .confirm, .success-popup .confirm {
             background: var(--success-color);
             color: white;
         }
 
-        .popup .cancel {
+        .popup .cancel, .confirm-popup .cancel, .success-popup .cancel {
             background: var(--primary-color);
             color: white;
         }
@@ -206,21 +206,58 @@
 
     <div class="overlay" id="overlay" onclick="closePopup()"></div>
 
+    <!-- 一级弹窗 -->
     <div class="popup" id="popup">
         <p>How would you like to save the contact?</p>
-        <button class="confirm" onclick="alert('Saved to device!')">Save to Device</button>
+        <button class="confirm" onclick="showConfirm('Save to My Phone')">Save to My Phone</button>
+        <button class="confirm" onclick="showConfirm('Save by Email')">Save by Email</button>
         <button class="cancel" onclick="closePopup()">Cancel</button>
     </div>
 
+    <!-- 二级弹窗 -->
+    <div class="confirm-popup" id="confirmPopup">
+        <p id="confirmText"></p>
+        <button class="confirm" id="confirmAction">Confirm</button>
+        <button class="cancel" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- 成功提示弹窗 -->
+    <div class="success-popup" id="successPopup">
+        <p id="successText">Action Successful!</p>
+        <button class="confirm" onclick="closeSuccess()">OK</button>
+    </div>
+
     <script>
+        const popup = document.getElementById("popup");
+        const overlay = document.getElementById("overlay");
+        const confirmPopup = document.getElementById("confirmPopup");
+        const successPopup = document.getElementById("successPopup");
+        const confirmText = document.getElementById("confirmText");
+
         function showPopup() {
-            document.getElementById("popup").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
+            popup.style.display = "block";
+            overlay.style.display = "block";
         }
 
         function closePopup() {
-            document.getElementById("popup").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
+            popup.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        function showConfirm(action) {
+            closePopup();
+            confirmText.textContent = `Do you want to ${action}?`;
+            confirmPopup.style.display = "block";
+        }
+
+        function goBack() {
+            confirmPopup.style.display = "none";
+            showPopup();
+        }
+
+        function closeSuccess() {
+            successPopup.style.display = "none";
+            overlay.style.display = "none";
         }
     </script>
 </body>
