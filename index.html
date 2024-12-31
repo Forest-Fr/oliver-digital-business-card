@@ -486,6 +486,12 @@
     // Form submission logic
     emailForm.addEventListener("submit", function (e) {
       e.preventDefault();
+
+      // [新增或修改] 若按钮已禁用，则直接返回，防止重复提交
+      if (sendButton.disabled) {
+        return;
+      }
+
       const email = emailInput.value.trim();
 
       // Validate email format
@@ -499,9 +505,9 @@
       // Check if email was sent today
       const today = new Date().toISOString().split("T")[0]; // Get today's date
       if (sentEmails[email] === today) {
-        infoMessage.style.display = "block"; // Show duplicate send message
-        successMessage.style.display = "none"; // Hide success message
-        errorMessage.style.display = "none"; // Hide error message
+        infoMessage.style.display = "block";
+        successMessage.style.display = "none";
+        errorMessage.style.display = "none";
         return;
       }
 
@@ -515,15 +521,21 @@
         from_name: "Oliver Fang",
         message: "Here is the vCard contact information you requested.",
       }).then(
-        function () {
-          successMessage.style.display = "block"; // Show success message
+        () => {
+          // [新增或修改] 成功时先隐藏错误与提醒，再显示成功
+          errorMessage.style.display = "none";
+          infoMessage.style.display = "none";
+          successMessage.style.display = "block";
+
           sentEmails[email] = today; // Record sent email and date
           sendButton.disabled = true; // Disable send button
           emailInput.value = ""; // Clear input field
         },
-        function (error) {
+        (error) => {
           errorMessage.textContent = "Failed to send email. Please try again.";
           errorMessage.style.display = "block";
+          // [可选] 发送失败时可重新启用按钮，方便用户重试
+          sendButton.disabled = false;
         }
       );
     });
@@ -533,14 +545,14 @@
       const email = emailInput.value.trim();
 
       if (!email) {
-        errorMessage.style.display = "none"; // Hide message if input is empty
-        sendButton.disabled = true; // Disable send button
+        errorMessage.style.display = "none";
+        sendButton.disabled = true;
       } else if (validateEmail(email)) {
-        errorMessage.style.display = "none"; // Hide message if input is valid
-        sendButton.disabled = false; // Enable send button
+        errorMessage.style.display = "none";
+        sendButton.disabled = false;
       } else {
-        errorMessage.style.display = "block"; // Show error message if input is invalid
-        sendButton.disabled = true; // Disable send button
+        errorMessage.style.display = "block";
+        sendButton.disabled = true;
       }
 
       // Hide other messages
@@ -552,7 +564,14 @@
       1. Always Show Download Button
     */
     const downloadBtn = document.getElementById('downloadBtn');
-    // No device detection code; the button is always visible
+
+    /* [新增或修改] 防止连续点击 "downloadvcard" 按钮重复打开弹窗 */
+    downloadBtn.addEventListener('click', () => {
+      const popup = document.getElementById('popup');
+      if (!popup.classList.contains('active')) {
+        openPopup(popup);
+      }
+    });
 
     /* 
       2. Popup Logic
@@ -650,11 +669,6 @@
     const btnCancelPopup = document.getElementById('btnCancelPopup');
     const btnSaveByEmail = document.getElementById('btnSaveByEmail');
     const btnSaveToPhone = document.getElementById('btnSaveToPhone');
-
-    // Open primary popup on download button click
-    downloadBtn.addEventListener('click', () => {
-      openPopup(popup);
-    });
 
     // Close primary popup on close button click
     popupCloseBtn.addEventListener('click', () => {
