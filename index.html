@@ -3,27 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact Card - Further Optimized</title>
+  <title>Contact Card - Optimized with Visible Close Buttons</title>
 
-  <!-- =============================
-       [可选] 如果想分离CSS
-       <link rel="stylesheet" href="styles.css" />
-       ============================= -->
-
+  <!-- Inline CSS for simplicity -->
   <style>
     :root {
-      --primary-color: #6BAED9;  /* 主色调 */
-      --primary-color-dark: #E55C50; 
+      --primary-color: #6BAED9;  /* Primary color */
+      --primary-color-dark: #4682B4; 
       --confirm-color: #6BAED9;
-      --cancel-color:#D3D3D3;
+      --cancel-color: #D3D3D3;
       --white-color: #fff;
       --font-family: Arial, sans-serif;
       --transition-duration: 0.3s;
     }
 
-    /********************************
-     * 通用重置与基础样式
-     ********************************/
+    /* Universal Reset and Basic Styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -32,11 +26,12 @@
     body {
       font-family: var(--font-family);
       background: linear-gradient(to bottom, var(--primary-color), #FFFFFF);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      overflow: auto; /* Enable both vertical and horizontal scrolling */
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     a {
       text-decoration: none;
@@ -44,6 +39,10 @@
     }
     button {
       cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
     }
     button:focus {
       outline: 3px solid var(--primary-color);
@@ -54,9 +53,7 @@
       max-width: 100%;
     }
 
-    /********************************
-     * 主卡片（一级界面）
-     ********************************/
+    /* Main Card (Primary Interface) */
     .contact-card {
       background: var(--white-color);
       padding: 20px;
@@ -66,6 +63,7 @@
       width: 90%;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+      position: relative; /* Establish a new positioning context */
     }
     .contact-card:hover {
       transform: scale(1.02);
@@ -115,9 +113,7 @@
       text-decoration: underline;
     }
 
-    /********************************
-     * 社交图标区域
-     ********************************/
+    /* Social Icons Area */
     .social-icons {
       display: flex;
       justify-content: center;
@@ -142,9 +138,7 @@
       transform: scale(1.1);
     }
 
-    /********************************
-     * 下载按钮
-     ********************************/
+    /* Download Button */
     .btn {
       display: inline-block;
       margin-top: 20px;
@@ -152,10 +146,10 @@
       border-radius: 5px;
       font-weight: bold;
       font-size: 16px;
-      border: none;
       color: var(--white-color);
       background-color: var(--primary-color);
       transition: background-color 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
     }
     .btn:hover,
     .btn:focus {
@@ -163,9 +157,7 @@
       transform: scale(1.02);
     }
 
-    /********************************
-     * 弹窗相关
-     ********************************/
+    /* Popup Overlay */
     .overlay {
       display: none;
       position: fixed;
@@ -174,9 +166,7 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
-      z-index: 5;
-
-      /* 动画：淡入淡出 */
+      z-index: 1000; /* High z-index to cover all content */
       opacity: 0;
       transition: opacity var(--transition-duration) ease;
     }
@@ -185,88 +175,153 @@
       opacity: 1;
     }
 
-    .popup, .confirm-popup {
+    /* Popup and Email Popup Styles */
+    .popup, .email-popup {
       display: none;
       position: fixed;
       top: 50%;
       left: 50%;
       background-color: var(--white-color);
-      padding: 20px;
+      padding: 50px 20px 20px 20px; /* Increased top padding to accommodate close button */
       border-radius: 10px;
       text-align: center;
-      z-index: 10;
+      z-index: 1001; /* Above the overlay */
       width: 80%;
       max-width: 400px;
       border: 2px solid var(--primary-color);
+      box-sizing: border-box; /* Include padding in width */
 
-      /* 过渡动画 */
+      /* Transition Animations */
       opacity: 0;
       transform: translate(-50%, -50%) scale(0.95);
       transition: opacity var(--transition-duration) ease, transform var(--transition-duration) ease;
     }
     .popup.active,
-    .confirm-popup.active {
+    .email-popup.active {
       display: block;
       opacity: 1;
       transform: translate(-50%, -50%) scale(1.02);
     }
 
-    /* 右上角关闭按钮（可选） */
+    /* Close Button Styles */
     .popup__close-btn,
-    .confirm-popup__close-btn {
+    .email-popup__close-btn {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: none;
+      top: 10px; /* Position at the very top */
+      right: 10px; /* Position at the very right */
+      background-color: #f0f0f0; /* Light background to ensure visibility */
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: bold;
-      font-size: 20px;
-      color: #666;
+      font-size: 20px; /* Adjusted font size for better fit */
+      color: #000; /* Black color for the '×' */
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s, background-color 0.2s;
+      z-index: 1002; /* Ensure it's above other elements */
     }
     .popup__close-btn:hover,
-    .confirm-popup__close-btn:hover {
-      transform: scale(1.1);
-      color: #000;
+    .email-popup__close-btn:hover {
+      transform: scale(1.2);
+      background-color: #e0e0e0; /* Slightly darker on hover */
+    }
+    /* Remove default focus outline for close buttons */
+    .popup__close-btn:focus,
+    .email-popup__close-btn:focus {
+      outline: none;
     }
 
-    /* 弹窗按钮外观 */
+    /* Popup Buttons Styles */
     .popup button,
-    .confirm-popup button {
+    .email-popup button {
       margin: 10px;
       padding: 10px 20px;
       border-radius: 5px;
-      border: none;
       color: var(--white-color);
       transition: background-color 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+      border: none;
+      font: inherit;
     }
     .popup button:hover,
-    .confirm-popup button:hover {
+    .email-popup button:hover {
       transform: scale(1.02);
       filter: brightness(0.95);
     }
 
-    /* 确认和取消的按钮区分 */
+    /* Confirm and Cancel Button Differentiation */
     .btn-confirm {
       background-color: var(--confirm-color);
     }
     .btn-cancel {
       background-color: var(--cancel-color);
+      color: #333;
     }
 
-    .confirm-popup__nav-buttons {
+    .popup__nav-buttons {
       display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-    }
-    .confirm-popup__nav-buttons button {
-      width: 45%;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
     }
 
-    /********************************
-     * Focus Trap 调试可视化（可删除）
-     ********************************/
+    /* EmailJS Form Styles */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .form-group label {
+      font-size: 16px;
+      color: #333;
+    }
+    .form-group input {
+      padding: 8px;
+      width: 100%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .form-group .message {
+      display: none;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .form-group .success-message {
+      color: green;
+    }
+    .form-group .error-message {
+      color: red;
+    }
+    .form-group .info-message {
+      color: orange;
+    }
+    .form-group button {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .form-group button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .form-group button:hover:not(:disabled) {
+      background-color: var(--primary-color-dark);
+      transform: scale(1.02);
+    }
+
+    /* Focus Trap Debug Indicator (Optional, can be removed) */
     .focus-trap-indicator {
       position: absolute;
       bottom: 5px;
@@ -285,12 +340,12 @@
   </style>
 </head>
 <body>
-  <!-- Focus Trap调试指示（可删除） -->
+  <!-- Focus Trap Debug Indicator (Optional, can be removed) -->
   <div class="focus-trap-indicator" id="focusTrapIndicator">
     Focus trapped in dialog
   </div>
 
-  <!-- 主界面(卡片) -->
+  <!-- Main Interface (Card) -->
   <main class="contact-card" aria-labelledby="contactCardTitle">
     <h1 class="contact-card__title" id="contactCardTitle">Oliver Fang</h1>
     <p class="contact-card__position">Sales Manager</p>
@@ -301,7 +356,7 @@
       </a>
     </p>
 
-    <!-- 联系信息 -->
+    <!-- Contact Information -->
     <div class="contact-item">
       <img 
         src="https://cdn-icons-png.flaticon.com/512/126/126509.png" 
@@ -324,7 +379,7 @@
       <p>Shen Zhen Dijiean Technology Co., Ltd</p>
     </div>
 
-    <!-- 社交图标 -->
+    <!-- Social Icons -->
     <div class="social-icons">
       <a 
         href="https://wa.me/12817839998" 
@@ -352,16 +407,16 @@
       </a>
     </div>
 
-    <!-- 下载vCard按钮（PC端显示） -->
+    <!-- Download vCard Button (Always Visible) -->
     <button class="btn" id="downloadBtn" type="button">
       DOWNLOAD VCARD
     </button>
   </main>
 
-  <!-- 遮罩层 -->
+  <!-- Overlay -->
   <div class="overlay" id="overlay" aria-hidden="true"></div>
 
-  <!-- 一级弹窗：如何保存联系人 -->
+  <!-- Primary Popup: How to Save Contact -->
   <div 
     class="popup" 
     id="popup" 
@@ -369,57 +424,284 @@
     aria-modal="true" 
     aria-labelledby="popupTitle"
   >
-    <!-- 右上角关闭弹窗按钮（可选） -->
-    <button class="popup__close-btn" aria-label="Close dialog" id="popupCloseBtn">×</button>
+    <!-- Close Button (Always Visible) -->
+    <button class="popup__close-btn" aria-label="Close dialog" id="popupCloseBtn">&times;</button>
 
     <h2 id="popupTitle" role="heading" aria-level="1">
       How would you like to save the contact?
     </h2>
-    <button class="btn-confirm" type="button" id="btnSaveByEmail">Save by Email</button>
-    <button class="btn-confirm" type="button" id="btnSaveToPhone">Save to My Phone</button>
-    <button class="btn-cancel" type="button" id="btnCancelPopup">Cancel</button>
-  </div>
-
-  <!-- 二级确认弹窗 -->
-  <div 
-    class="confirm-popup" 
-    id="confirmPopup" 
-    role="dialog" 
-    aria-modal="true"
-    aria-labelledby="confirmTitle"
-  >
-    <!-- 右上角关闭弹窗按钮（可选） -->
-    <button class="confirm-popup__close-btn" aria-label="Close dialog" id="confirmCloseBtn">×</button>
-
-    <p id="confirmTitle"></p>
-    <div class="confirm-popup__nav-buttons">
-      <button class="btn-cancel" type="button" id="btnBack">Back</button>
-      <button class="btn-confirm" type="button" id="btnConfirmAction">Confirm</button>
+    <div class="popup__nav-buttons">
+      <button class="btn-confirm" type="button" id="btnSaveByEmail">Save by Email</button>
+      <button class="btn-confirm" type="button" id="btnSaveToPhone">Save to My Phone</button>
+      <button class="btn-cancel" type="button" id="btnCancelPopup">Cancel</button>
     </div>
   </div>
 
-  <!-- =============================
-       [可选] 如果想分离JS
-       <script src="app.js"></script>
-       ============================= -->
+  <!-- EmailJS Popup -->
+  <div 
+    class="email-popup" 
+    id="emailPopup" 
+    role="dialog" 
+    aria-modal="true"
+    aria-labelledby="emailPopupTitle"
+  >
+    <!-- Close Button (Always Visible) -->
+    <button class="email-popup__close-btn" aria-label="Close dialog" id="emailPopupCloseBtn">&times;</button>
+
+    <h2 id="emailPopupTitle" role="heading" aria-level="1">
+      Send Contact via Email
+    </h2>
+    <form id="emailForm" class="form-group">
+      <label for="emailInput">Your Email<span style="color: red;">*</span></label>
+      <input type="email" id="emailInput" placeholder="Your Email" required />
+      <span class="message success-message" id="successMessage">Email sent successfully!</span>
+      <span class="message error-message" id="errorMessage">Please input a valid email</span>
+      <span class="message info-message" id="infoMessage">This email has already been sent today.</span>
+      <button class="btn" type="submit" id="sendButton" disabled>Send by Email</button>
+    </form>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
-    /*
-      ============================
-      1. 自动检测设备并隐藏下载按钮（PC/移动端）
-      ============================
+    // Initialize EmailJS
+    emailjs.init("HXCThZROMytOt-wyp");
+
+    const emailForm = document.getElementById("emailForm");
+    const emailInput = document.getElementById("emailInput");
+    const successMessage = document.getElementById("successMessage");
+    const errorMessage = document.getElementById("errorMessage");
+    const infoMessage = document.getElementById("infoMessage");
+    const sendButton = document.getElementById("sendButton");
+
+    // To store sent emails and their dates
+    const sentEmails = {};
+
+    // Email validation function
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.(com|net|org|edu|gov|info)$/; // Enhanced regex to ensure valid suffix
+      return re.test(email);
+    }
+
+    // Form submission logic
+    emailForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+
+      // Validate email format
+      if (!validateEmail(email)) {
+        errorMessage.style.display = "block";
+        successMessage.style.display = "none";
+        infoMessage.style.display = "none";
+        return;
+      }
+
+      // Check if email was sent today
+      const today = new Date().toISOString().split("T")[0]; // Get today's date
+      if (sentEmails[email] === today) {
+        infoMessage.style.display = "block"; // Show duplicate send message
+        successMessage.style.display = "none"; // Hide success message
+        errorMessage.style.display = "none"; // Hide error message
+        return;
+      }
+
+      // Hide other messages
+      errorMessage.style.display = "none";
+      infoMessage.style.display = "none";
+
+      // Use EmailJS to send email
+      emailjs.send("service_1ffkva1", "template_ypdj9n9", {
+        to_email: email,
+        from_name: "Oliver Fang",
+        message: "Here is the vCard contact information you requested.",
+      }).then(
+        function () {
+          successMessage.style.display = "block"; // Show success message
+          sentEmails[email] = today; // Record sent email and date
+          sendButton.disabled = true; // Disable send button
+          emailInput.value = ""; // Clear input field
+        },
+        function (error) {
+          errorMessage.textContent = "Failed to send email. Please try again.";
+          errorMessage.style.display = "block";
+        }
+      );
+    });
+
+    // Real-time validation logic
+    emailInput.addEventListener("input", function () {
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        errorMessage.style.display = "none"; // Hide message if input is empty
+        sendButton.disabled = true; // Disable send button
+      } else if (validateEmail(email)) {
+        errorMessage.style.display = "none"; // Hide message if input is valid
+        sendButton.disabled = false; // Enable send button
+      } else {
+        errorMessage.style.display = "block"; // Show error message if input is invalid
+        sendButton.disabled = true; // Disable send button
+      }
+
+      // Hide other messages
+      successMessage.style.display = "none";
+      infoMessage.style.display = "none";
+    });
+
+    /* 
+      1. Always Show Download Button
     */
     const downloadBtn = document.getElementById('downloadBtn');
-    function isMobile() {
-      return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    // No device detection code; the button is always visible
+
+    /* 
+      2. Popup Logic
+    */
+    const overlay = document.getElementById('overlay');
+    const popup = document.getElementById('popup');
+    const emailPopup = document.getElementById('emailPopup');
+    const focusTrapIndicator = document.getElementById('focusTrapIndicator');
+
+    // Close buttons
+    const popupCloseBtn = document.getElementById('popupCloseBtn');
+    const emailPopupCloseBtn = document.getElementById('emailPopupCloseBtn');
+
+    // Remember the last active element to return focus after closing popup
+    let lastActiveElement = null;
+
+    // Unified open/close functions
+    function openPopup(targetPopup) {
+      lastActiveElement = document.activeElement; // Record current focus
+
+      overlay.classList.add('active');
+      targetPopup.classList.add('active');
+      overlay.setAttribute('aria-hidden', 'false');
+
+      // Automatically focus the first focusable element inside the popup
+      const firstFocusable = targetPopup.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (firstFocusable) {
+        firstFocusable.focus();
+      }
+
+      // Activate focus trap
+      document.addEventListener('keydown', focusTrap);
+      focusTrapIndicator.classList.add('active');
     }
-    if (isMobile()) {
-      downloadBtn.style.display = 'none';
+    function closePopup(targetPopup) {
+      // For fade-out effect, remove active class first
+      overlay.classList.remove('active');
+      targetPopup.classList.remove('active');
+      overlay.setAttribute('aria-hidden', 'true');
+
+      // Deactivate focus trap
+      document.removeEventListener('keydown', focusTrap);
+      focusTrapIndicator.classList.remove('active');
+
+      // Return focus to the last active element
+      if (lastActiveElement) {
+        lastActiveElement.focus();
+      }
+    }
+
+    // Focus trap function
+    function focusTrap(e) {
+      const activePopup = document.querySelector('.popup.active, .email-popup.active');
+      if (!activePopup) return;
+
+      const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+      const focusableElements = activePopup.querySelectorAll(focusableSelectors);
+      if (!focusableElements.length) return; // No focusable elements
+
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      // Close popup on Escape key
+      if (e.key === 'Escape') {
+        closePopup(activePopup);
+        return;
+      }
+
+      // Handle Tab key navigation
+      if (e.key === 'Tab') {
+        if (focusableElements.length === 1) {
+          e.preventDefault();
+          return; // Only one focusable element
+        }
+        // Shift + Tab
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        }
+        // Tab
+        else {
+          if (document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        }
+      }
     }
 
     /*
-      ============================
-      2. Gmail 邮件功能
-      ============================
+      3. Popup Interaction Logic
+    */
+    const btnCancelPopup = document.getElementById('btnCancelPopup');
+    const btnSaveByEmail = document.getElementById('btnSaveByEmail');
+    const btnSaveToPhone = document.getElementById('btnSaveToPhone');
+
+    // Open primary popup on download button click
+    downloadBtn.addEventListener('click', () => {
+      openPopup(popup);
+    });
+
+    // Close primary popup on close button click
+    popupCloseBtn.addEventListener('click', () => {
+      closePopup(popup);
+    });
+
+    // Close primary popup on cancel button click
+    btnCancelPopup.addEventListener('click', () => {
+      closePopup(popup);
+    });
+
+    // Save to phone logic
+    btnSaveToPhone.addEventListener('click', () => {
+      closePopup(popup);
+      const link = document.createElement('a');
+      link.href = 'https://forest-fr.github.io/oliver-digital-business-card/OliverF.vcf';
+      link.download = 'OliverF.vcf';
+      link.click();
+    });
+
+    // Save to email logic - Open EmailJS popup
+    btnSaveByEmail.addEventListener('click', () => {
+      closePopup(popup);
+      openPopup(emailPopup);
+    });
+
+    /*
+      4. Close EmailJS Popup
+    */
+    emailPopupCloseBtn.addEventListener('click', () => {
+      closePopup(emailPopup);
+    });
+
+    /*
+      5. Click Overlay to Close Any Open Popup
+    */
+    overlay.addEventListener('click', () => {
+      if (popup.classList.contains('active')) {
+        closePopup(popup);
+      }
+      if (emailPopup.classList.contains('active')) {
+        closePopup(emailPopup);
+      }
+    });
+
+    /*
+      6. Gmail Email Functionality
     */
     const sendGmailLink = document.getElementById('sendGmailLink');
     sendGmailLink.addEventListener('click', (e) => {
@@ -441,214 +723,6 @@ Best regards,
       const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = mailtoUrl;
     }
-
-    /*
-      ============================
-      3. 弹窗逻辑 + 焦点困锁 (Focus Trap)
-      ============================
-    */
-    const overlay = document.getElementById('overlay');
-    const popup = document.getElementById('popup');
-    const confirmPopup = document.getElementById('confirmPopup');
-    const confirmTitle = document.getElementById('confirmTitle');
-    const btnConfirmAction = document.getElementById('btnConfirmAction');
-    const focusTrapIndicator = document.getElementById('focusTrapIndicator');
-
-    // 右上角关闭按钮
-    const popupCloseBtn = document.getElementById('popupCloseBtn');
-    const confirmCloseBtn = document.getElementById('confirmCloseBtn');
-
-    // 记住触发弹窗的元素，用以关闭后回到该元素
-    let lastActiveElement = null;
-
-    // 统一的打开 / 关闭函数
-    function openPopup(targetPopup) {
-      lastActiveElement = document.activeElement; // 记录当前焦点
-
-      overlay.classList.add('active');
-      targetPopup.classList.add('active');
-      overlay.setAttribute('aria-hidden', 'false');
-
-      // 自动聚焦到弹窗内的第一个按钮
-      const firstButton = targetPopup.querySelector('button:not(.popup__close-btn):not(.confirm-popup__close-btn)');
-      if (firstButton) {
-        firstButton.focus();
-      }
-
-      // 启动焦点困锁
-      document.addEventListener('keydown', focusTrap);
-      focusTrapIndicator.classList.add('active');
-    }
-    function closePopup(targetPopup) {
-      // 为了增加“淡出”动画效果，可以先移除 active，然后等动画结束后再 display:none
-      overlay.classList.remove('active');
-      targetPopup.classList.remove('active');
-      overlay.setAttribute('aria-hidden', 'true');
-
-      // 停止焦点困锁
-      document.removeEventListener('keydown', focusTrap);
-      focusTrapIndicator.classList.remove('active');
-
-      // 将焦点还原给原触发按钮
-      if (lastActiveElement) {
-        lastActiveElement.focus();
-      }
-    }
-
-    // 焦点困锁( Focus Trap )
-    function focusTrap(e) {
-      const activePopup = document.querySelector('.popup.active, .confirm-popup.active');
-      if (!activePopup) return;
-
-      const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-      const focusableElements = activePopup.querySelectorAll(focusableSelectors);
-      if (!focusableElements.length) return; // 没有可聚焦元素时直接返回
-
-      const firstFocusable = focusableElements[0];
-      const lastFocusable = focusableElements[focusableElements.length - 1];
-
-      // 按 Esc 关闭弹窗
-      if (e.key === 'Escape') {
-        closePopup(activePopup);
-        return;
-      }
-
-      // 按 Tab 键时
-      if (e.key === 'Tab') {
-        if (focusableElements.length === 1) {
-          e.preventDefault();
-          return; // 只有一个可聚焦元素，则一直聚焦它
-        }
-        // Shift + Tab
-        if (e.shiftKey) {
-          if (document.activeElement === firstFocusable) {
-            e.preventDefault();
-            lastFocusable.focus();
-          }
-        }
-        // 仅 Tab
-        else {
-          if (document.activeElement === lastFocusable) {
-            e.preventDefault();
-            firstFocusable.focus();
-          }
-        }
-      }
-    }
-
-    /*
-      ============================
-      4. 一级弹窗 (How to save contact?)
-      ============================
-    */
-    const btnCancelPopup = document.getElementById('btnCancelPopup');
-    const btnSaveByEmail = document.getElementById('btnSaveByEmail');
-    const btnSaveToPhone = document.getElementById('btnSaveToPhone');
-
-    downloadBtn.addEventListener('click', () => {
-      openPopup(popup);
-    });
-    popupCloseBtn.addEventListener('click', () => {
-      closePopup(popup);
-    });
-    btnCancelPopup.addEventListener('click', () => {
-      closePopup(popup);
-    });
-    // 保存到手机
-    btnSaveToPhone.addEventListener('click', () => {
-      closePopup(popup);
-      confirmTitle.textContent = 'Do you want to download the vCard to your device?';
-      btnConfirmAction.onclick = saveToPhone;
-      openPopup(confirmPopup);
-    });
-    // 保存到邮箱
-    btnSaveByEmail.addEventListener('click', () => {
-      closePopup(popup);
-      confirmTitle.textContent = 'Do you want to save the contact via email?';
-      btnConfirmAction.onclick = downloadEmailTemplate;
-      openPopup(confirmPopup);
-    });
-
-    /*
-      ============================
-      5. 二级弹窗 (Confirm dialog)
-      ============================
-    */
-    const btnBack = document.getElementById('btnBack');
-    btnBack.addEventListener('click', () => {
-      closePopup(confirmPopup);
-      openPopup(popup);
-    });
-    confirmCloseBtn.addEventListener('click', () => {
-      closePopup(confirmPopup);
-    });
-
-    function saveToPhone() {
-      closePopup(confirmPopup);
-      const link = document.createElement('a');
-      link.href = 'https://forest-fr.github.io/oliver-digital-business-card/OliverF.vcf';
-      link.download = 'OliverF.vcf';
-      link.click();
-    }
-    function downloadEmailTemplate() {
-      closePopup(confirmPopup);
-      const emailContent = `
-From: [Your Email]
-To: oliveroogle@gmail.com
-Subject: Contact Information - Oliver Fang
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="simple-boundary"
-
---simple-boundary
-Content-Type: text/plain; charset="UTF-8"
-
-Dear Oliver Fang,
-
-Please find attached my inquiry.
-
---simple-boundary
-Content-Type: text/vcard; charset="UTF-8"; name="OliverF.vcf"
-Content-Disposition: attachment; filename="OliverF.vcf"
-
-BEGIN:VCARD
-VERSION:3.0
-FN:Oliver Fang
-TITLE:Sales Manager
-TEL:+12817839998
-EMAIL:oliveroogle@gmail.com
-ORG:Shen Zhen Dijiean Technology Co., Ltd
-URL:http://djakeji.com
-END:VCARD
-
---simple-boundary
-Content-Type: image/jpeg; name="OliverF.vcf"
-Content-Disposition: attachment; filename="OliverF.vcf"
-
-[Binary Data for JPEG File]
-
---simple-boundary--
-      `.trim();
-
-      const blob = new Blob([emailContent], { type: 'text/plain' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'Oliver-Fang-Contact.eml';
-      link.click();
-    }
-
-    /*
-      ============================
-      6. 点击遮罩层关闭任何已打开的弹窗
-      ============================
-    */
-    overlay.addEventListener('click', () => {
-      if (popup.classList.contains('active')) {
-        closePopup(popup);
-      }
-      if (confirmPopup.classList.contains('active')) {
-        closePopup(confirmPopup);
-      }
-    });
   </script>
 </body>
 </html>
