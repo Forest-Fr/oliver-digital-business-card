@@ -348,7 +348,7 @@
   <!-- Main Interface (Card) -->
   <main class="contact-card" aria-labelledby="contactCardTitle">
     <h1 class="contact-card__title" id="contactCardTitle">Oliver Fang</h1>
-    <p class="contact-card__position">Sales Manager</p>
+    <p class="contact-card__position">Sales Consultant</p>
     <p class="contact-card__desc">
       DJA: PoE switch brand by Dijiean Tech. Visit:
       <a href="http://djakeji.com" target="_blank" rel="noopener">
@@ -486,12 +486,6 @@
     // Form submission logic
     emailForm.addEventListener("submit", function (e) {
       e.preventDefault();
-
-      // [新增或修改] 若按钮已禁用，则直接返回，防止重复提交
-      if (sendButton.disabled) {
-        return;
-      }
-
       const email = emailInput.value.trim();
 
       // Validate email format
@@ -505,9 +499,9 @@
       // Check if email was sent today
       const today = new Date().toISOString().split("T")[0]; // Get today's date
       if (sentEmails[email] === today) {
-        infoMessage.style.display = "block";
-        successMessage.style.display = "none";
-        errorMessage.style.display = "none";
+        infoMessage.style.display = "block"; // Show duplicate send message
+        successMessage.style.display = "none"; // Hide success message
+        errorMessage.style.display = "none"; // Hide error message
         return;
       }
 
@@ -521,21 +515,15 @@
         from_name: "Oliver Fang",
         message: "Here is the vCard contact information you requested.",
       }).then(
-        () => {
-          // [新增或修改] 成功时先隐藏错误与提醒，再显示成功
-          errorMessage.style.display = "none";
-          infoMessage.style.display = "none";
-          successMessage.style.display = "block";
-
+        function () {
+          successMessage.style.display = "block"; // Show success message
           sentEmails[email] = today; // Record sent email and date
           sendButton.disabled = true; // Disable send button
           emailInput.value = ""; // Clear input field
         },
-        (error) => {
+        function (error) {
           errorMessage.textContent = "Failed to send email. Please try again.";
           errorMessage.style.display = "block";
-          // [可选] 发送失败时可重新启用按钮，方便用户重试
-          sendButton.disabled = false;
         }
       );
     });
@@ -545,14 +533,14 @@
       const email = emailInput.value.trim();
 
       if (!email) {
-        errorMessage.style.display = "none";
-        sendButton.disabled = true;
+        errorMessage.style.display = "none"; // Hide message if input is empty
+        sendButton.disabled = true; // Disable send button
       } else if (validateEmail(email)) {
-        errorMessage.style.display = "none";
-        sendButton.disabled = false;
+        errorMessage.style.display = "none"; // Hide message if input is valid
+        sendButton.disabled = false; // Enable send button
       } else {
-        errorMessage.style.display = "block";
-        sendButton.disabled = true;
+        errorMessage.style.display = "block"; // Show error message if input is invalid
+        sendButton.disabled = true; // Disable send button
       }
 
       // Hide other messages
@@ -564,14 +552,7 @@
       1. Always Show Download Button
     */
     const downloadBtn = document.getElementById('downloadBtn');
-
-    /* [新增或修改] 防止连续点击 "downloadvcard" 按钮重复打开弹窗 */
-    downloadBtn.addEventListener('click', () => {
-      const popup = document.getElementById('popup');
-      if (!popup.classList.contains('active')) {
-        openPopup(popup);
-      }
-    });
+    // No device detection code; the button is always visible
 
     /* 
       2. Popup Logic
@@ -669,6 +650,11 @@
     const btnCancelPopup = document.getElementById('btnCancelPopup');
     const btnSaveByEmail = document.getElementById('btnSaveByEmail');
     const btnSaveToPhone = document.getElementById('btnSaveToPhone');
+
+    // Open primary popup on download button click
+    downloadBtn.addEventListener('click', () => {
+      openPopup(popup);
+    });
 
     // Close primary popup on close button click
     popupCloseBtn.addEventListener('click', () => {
