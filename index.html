@@ -411,27 +411,11 @@
         <span>Skype</span>
     </a>
   <!-- WeChat (官方Logo) -->
-  <a href="javascript:void(0);" onclick="openWeChat()">
+  <a href="weixin://dl/officialaccounts?scene=10000002&need_open_webview=0&url=wxid_iutal1lhylrv22" target="_self">
     <img src="WeChat Logo.png" alt="WeChat Logo" >
     <span>WeChat</span>
   </a>
 </div>
-
-<script>
-  function openWeChat() {
-    // 弹出提示框，提醒用户加好友
-    alert("To start a chat, please add me as a friend on WeChat first.\nMy WeChat ID is: wxid_iutal1lhylrv22.\nThank you!");
-
-    // 检查是否在支持的设备上，如果支持，直接跳转到微信
-    if (navigator.userAgent.match(/MicroMessenger|Android|iPhone/i)) {
-      // 跳转到微信加好友的页面
-      window.location.href = "weixin://weixin.qq.com/r/0Je2oa03ccZgWjpRmtq7pq"; // 微信加好友链接
-    } else {
-      // 如果设备不支持，给出提示
-      alert("Your device might not support opening WeChat directly. Please manually search and add me on WeChat using this ID: wxid_iutal1lhylrv22.");
-    }
-  }
-</script>
 
     <!-- Download vCard Button (Always Visible) -->
     <button class="btn" id="downloadBtn" type="button">
