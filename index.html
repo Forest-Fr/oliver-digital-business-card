@@ -420,7 +420,7 @@
 <script>
   function openWeChat() {
     // 弹出提示框，提醒用户加好友
-    alert("请先添加微信好友，才能开始聊天。\n微信号: wxid_iutal1lhylrv22");
+    alert("To start a chat, please add me as a friend on WeChat first.\nMy WeChat ID is: wxid_iutal1lhylrv22.\nThank you!");
 
     // 检查是否在支持的设备上，如果支持，直接跳转到微信
     if (navigator.userAgent.match(/MicroMessenger|Android|iPhone/i)) {
@@ -428,7 +428,7 @@
       window.location.href = "weixin://weixin.qq.com/r/0Je2oa03ccZgWjpRmtq7pq"; // 微信加好友链接
     } else {
       // 如果设备不支持，给出提示
-      alert("当前设备可能不支持直接打开微信，请在微信中手动搜索添加好友: wxid_iutal1lhylrv22");
+      alert("Your device might not support opening WeChat directly. Please manually search and add me on WeChat using this ID: wxid_iutal1lhylrv22.");
     }
   }
 </script>
