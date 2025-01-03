@@ -369,7 +369,7 @@
         src="https://cdn-icons-png.flaticon.com/512/732/732200.png" 
         alt="Envelope icon"
       />
-      <a href="#" id="sendGmailLink">oliveroogle@gmail.com</a>
+      <a href="#" id="sendGmailLink">sales@oliverfr.com</a>
     </div>
     <div class="contact-item">
       <img 
@@ -407,23 +407,37 @@
  </a>
     <!-- Skype (官方Logo) -->
     <a href="https://web.skype.com/?openPstnPage=true" target="_self">
-        <img src="Skype Logo.png" alt="Skype Logo" style="width: 40px; height: 40px;">
+        <img src="Skype Logo.png" alt="Skype Logo">
         <span>Skype</span>
     </a>
-    <!-- WeChat (官方Logo) -->
-    <a href="weixin://dl/officialaccounts?scene=10000002&need_open_webview=0&url=wxid_iutal1lhylrv22" target="_self
-">
-        <img src="WeChat Logo.png" alt="WeChat Logo" style="width: 40px; height: 40px;">
-        <span>WeChat</span>
-      </a>
-    </div>
+  <!-- WeChat (官方Logo) -->
+  <a href="javascript:void(0);" onclick="openWeChat()">
+    <img src="WeChat Logo.png" alt="WeChat Logo" >
+    <span>WeChat</span>
+  </a>
+</div>
+
+<script>
+  function openWeChat() {
+    // 弹出提示框，提醒用户加好友
+    alert("请先添加微信好友，才能开始聊天。\n微信号: wxid_iutal1lhylrv22");
+
+    // 检查是否在支持的设备上，如果支持，直接跳转到微信
+    if (navigator.userAgent.match(/MicroMessenger|Android|iPhone/i)) {
+      // 跳转到微信加好友的页面
+      window.location.href = "weixin://weixin.qq.com/r/0Je2oa03ccZgWjpRmtq7pq"; // 微信加好友链接
+    } else {
+      // 如果设备不支持，给出提示
+      alert("当前设备可能不支持直接打开微信，请在微信中手动搜索添加好友: wxid_iutal1lhylrv22");
+    }
+  }
+</script>
 
     <!-- Download vCard Button (Always Visible) -->
     <button class="btn" id="downloadBtn" type="button">
       DOWNLOAD VCARD
     </button>
   </main>
-
   <!-- Overlay -->
   <div class="overlay" id="overlay" aria-hidden="true"></div>
 
@@ -720,7 +734,7 @@
       sendToGmail();
     });
     function sendToGmail() {
-      const recipient = 'oliveroogle@gmail.com';
+      const recipient = 'sales@oliverfr.com';
       const subject = 'Inquiry about PoE Products';
       const body = `
 Dear Oliver Fang,
