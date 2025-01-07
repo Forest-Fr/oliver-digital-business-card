@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact Card - Optimized with Visible Close Buttons</title>
+  <title>Contact Card - Oliver Fang</title>
 
   <!-- Inline CSS for simplicity -->
   <style>
@@ -73,11 +73,6 @@
       font-size: 24px;
       color: #333;
       margin-bottom: 5px;
-    }
-    .contact-card__position {
-      margin: 10px 0;
-      color: #555;
-      font-size: 16px;
     }
     .contact-card__desc {
       margin: 10px 0;
@@ -175,8 +170,8 @@
       opacity: 1;
     }
 
-    /* Popup and Email Popup Styles */
-    .popup, .email-popup {
+    /* Popup and Confirm Popup Styles */
+    .popup, .confirm-popup, .email-popup {
       display: none;
       position: fixed;
       top: 50%;
@@ -197,6 +192,7 @@
       transition: opacity var(--transition-duration) ease, transform var(--transition-duration) ease;
     }
     .popup.active,
+    .confirm-popup.active,
     .email-popup.active {
       display: block;
       opacity: 1;
@@ -205,6 +201,7 @@
 
     /* Close Button Styles */
     .popup__close-btn,
+    .confirm-popup__close-btn,
     .email-popup__close-btn {
       position: absolute;
       top: 10px; /* Position at the very top */
@@ -224,18 +221,21 @@
       z-index: 1002; /* Ensure it's above other elements */
     }
     .popup__close-btn:hover,
+    .confirm-popup__close-btn:hover,
     .email-popup__close-btn:hover {
       transform: scale(1.2);
       background-color: #e0e0e0; /* Slightly darker on hover */
     }
     /* Remove default focus outline for close buttons */
     .popup__close-btn:focus,
+    .confirm-popup__close-btn:focus,
     .email-popup__close-btn:focus {
       outline: none;
     }
 
     /* Popup Buttons Styles */
     .popup button,
+    .confirm-popup button,
     .email-popup button {
       margin: 10px;
       padding: 10px 20px;
@@ -247,6 +247,7 @@
       font: inherit;
     }
     .popup button:hover,
+    .confirm-popup button:hover,
     .email-popup button:hover {
       transform: scale(1.02);
       filter: brightness(0.95);
@@ -261,7 +262,8 @@
       color: #333;
     }
 
-    .popup__nav-buttons {
+    .popup__nav-buttons,
+    .confirm-popup__nav-buttons {
       display: flex;
       justify-content: center;
       gap: 10px;
@@ -321,40 +323,19 @@
       transform: scale(1.02);
     }
 
-    /* Focus Trap Debug Indicator (Optional, can be removed) */
-    .focus-trap-indicator {
-      position: absolute;
-      bottom: 5px;
-      left: 5px;
-      color: #fff;
-      background-color: rgba(0,0,0,0.7);
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 14px;
-      z-index: 9999;
-      display: none;
-    }
-    .focus-trap-indicator.active {
-      display: block;
-    }
   </style>
 </head>
 <body>
-  <!-- Focus Trap Debug Indicator (Optional, can be removed) -->
-  <div class="focus-trap-indicator" id="focusTrapIndicator">
-    Focus trapped in dialog
-  </div>
-
   <!-- Main Interface (Card) -->
   <main class="contact-card" aria-labelledby="contactCardTitle">
     <h1 class="contact-card__title" id="contactCardTitle">Oliver Fang</h1>
     <p class="contact-card__desc">
-      <p>International Sales Consultant at 
-        <a href="https://mefan-project.web.app/" style="color: #004D99; font-weight: bold;">
-           Mefan Solution
+      International Sales Consultant at 
+      <a href="https://mefan-project.web.app/" style="color: #004D99; font-weight: bold;">
+         Mefan Solution
       </a>
     </p>
-<p class="brand-note">Committed to Delivering Reliable earpods by Mefan Solution</p>
+    <p class="brand-note">Committed to Delivering Reliable Earpods by Mefan Solution</p>
 
     <!-- Contact Information -->
     <div class="contact-item">
@@ -404,37 +385,38 @@
           alt="LinkedIn icon" 
         />
         <span>LinkedIn</span>
- </a>
-    <!-- Skype (官方Logo) -->
-    <a href="https://web.skype.com/?openPstnPage=true" target="_self">
+      </a>
+      <!-- Skype (官方Logo) -->
+      <a href="https://web.skype.com/?openPstnPage=true" target="_self" aria-label="Skype">
         <img src="Skype Logo.png" alt="Skype Logo">
         <span>Skype</span>
-    </a>
-  <!-- WeChat (官方Logo) -->
-      <a href="weixin://dl/chat?wxid=wxid_kesvxwp296ci12">
-    <img src="WeChat Logo.png" alt="WeChat Logo" >
-    <span>WeChat</span>
-  </a>
-</div>
+      </a>
+      <!-- WeChat (官方Logo) -->
+      <a href="weixin://dl/chat?wxid=wxid_kesvxwp296ci12" aria-label="WeChat">
+        <img src="WeChat Logo.png" alt="WeChat Logo" >
+        <span>WeChat</span>
+      </a>
+    </div>
 
-    <!-- Download vCard Button (Always Visible) -->
-    <button class="btn" id="downloadBtn" type="button">
+    <!-- Download vCard Button -->
+    <button class="btn" id="downloadvcard" type="button">
       DOWNLOAD VCARD
     </button>
   </main>
+  
   <!-- Overlay -->
   <div class="overlay" id="overlay" aria-hidden="true"></div>
 
-  <!-- Primary Popup: How to Save Contact -->
+  <!-- Main Popup: How to Save Contact -->
   <div 
     class="popup" 
-    id="popup" 
+    id="mainPopup" 
     role="dialog" 
     aria-modal="true" 
     aria-labelledby="popupTitle"
   >
-    <!-- Close Button (Always Visible) -->
-    <button class="popup__close-btn" aria-label="Close dialog" id="popupCloseBtn">&times;</button>
+    <!-- Close Button -->
+    <button class="popup__close-btn" aria-label="Close dialog" id="mainPopupCloseBtn">&times;</button>
 
     <h2 id="popupTitle" role="heading" aria-level="1">
       How would you like to save the contact?
@@ -446,6 +428,26 @@
     </div>
   </div>
 
+  <!-- Confirm Popup: Confirm Saving to Phone -->
+  <div 
+    class="confirm-popup" 
+    id="confirmPhonePopup" 
+    role="dialog" 
+    aria-modal="true"
+    aria-labelledby="confirmPhoneTitle"
+  >
+    <!-- Close Button -->
+    <button class="confirm-popup__close-btn" aria-label="Close dialog" id="confirmPhoneCloseBtn">&times;</button>
+
+    <h2 id="confirmPhoneTitle" role="heading" aria-level="1">
+      Confirm sending contact to your phone?
+    </h2>
+    <div class="confirm-popup__nav-buttons">
+      <button class="btn-confirm" type="button" id="btnConfirmSendPhone">Confirm</button>
+      <button class="btn-cancel" type="button" id="btnCancelSendPhone">Cancel</button>
+    </div>
+  </div>
+
   <!-- EmailJS Popup -->
   <div 
     class="email-popup" 
@@ -454,7 +456,7 @@
     aria-modal="true"
     aria-labelledby="emailPopupTitle"
   >
-    <!-- Close Button (Always Visible) -->
+    <!-- Close Button -->
     <button class="email-popup__close-btn" aria-label="Close dialog" id="emailPopupCloseBtn">&times;</button>
 
     <h2 id="emailPopupTitle" role="heading" aria-level="1">
@@ -473,254 +475,223 @@
   <!-- JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
-    // Initialize EmailJS
-    emailjs.init("B1JJOs3J1-mRZ2AhL");
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize EmailJS
+      emailjs.init("B1JJOs3J1-mRZ2AhL"); // 请确保使用您的实际User ID
 
-    const emailForm = document.getElementById("emailForm");
-    const emailInput = document.getElementById("emailInput");
-    const successMessage = document.getElementById("successMessage");
-    const errorMessage = document.getElementById("errorMessage");
-    const infoMessage = document.getElementById("infoMessage");
-    const sendButton = document.getElementById("sendButton");
+      // EmailJS Elements
+      const emailForm = document.getElementById("emailForm");
+      const emailInput = document.getElementById("emailInput");
+      const successMessage = document.getElementById("successMessage");
+      const errorMessage = document.getElementById("errorMessage");
+      const infoMessage = document.getElementById("infoMessage");
+      const sendButton = document.getElementById("sendButton");
 
-    // To store sent emails and their dates
-    const sentEmails = {};
+      // To store sent emails and their dates
+      const sentEmails = {};
 
-    // Email validation function
-    function validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.(com|net|org|edu|gov|info)$/; // Enhanced regex to ensure valid suffix
-      return re.test(email);
-    }
+      // Email validation function
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.(com|net|org|edu|gov|info)$/; // Enhanced regex to ensure valid suffix
+        return re.test(email);
+      }
 
-    // Form submission logic
-    emailForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = emailInput.value.trim();
+      // Form submission logic
+      emailForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const email = emailInput.value.trim();
 
-      // Validate email format
-      if (!validateEmail(email)) {
-        errorMessage.style.display = "block";
+        // Validate email format
+        if (!validateEmail(email)) {
+          errorMessage.style.display = "block";
+          successMessage.style.display = "none";
+          infoMessage.style.display = "none";
+          return;
+        }
+
+        // Check if email was sent today
+        const today = new Date().toISOString().split("T")[0]; // Get today's date
+        if (sentEmails[email] === today) {
+          infoMessage.style.display = "block"; // Show duplicate send message
+          successMessage.style.display = "none"; // Hide success message
+          errorMessage.style.display = "none"; // Hide error message
+          return;
+        }
+
+        // Hide other messages
+        errorMessage.style.display = "none";
+        infoMessage.style.display = "none";
+
+        // Use EmailJS to send email
+        emailjs.send("service_atyduqa", "template_ubf6qdk", {
+          to_email: email,
+          from_name: "Oliver Fang",
+          message: "Here is the vCard contact information you requested.",
+        }).then(
+          function () {
+            successMessage.style.display = "block"; // Show success message
+            sentEmails[email] = today; // Record sent email and date
+            sendButton.disabled = true; // Disable send button
+            emailInput.value = ""; // Clear input field
+          },
+          function (error) {
+            errorMessage.textContent = "Failed to send email. Please try again.";
+            errorMessage.style.display = "block";
+          }
+        );
+      });
+
+      // Real-time validation logic
+      emailInput.addEventListener("input", function () {
+        const email = emailInput.value.trim();
+
+        if (!email) {
+          errorMessage.style.display = "none"; // Hide message if input is empty
+          sendButton.disabled = true; // Disable send button
+        } else if (validateEmail(email)) {
+          errorMessage.style.display = "none"; // Hide message if input is valid
+          sendButton.disabled = false; // Enable send button
+        } else {
+          errorMessage.style.display = "block"; // Show error message if input is invalid
+          sendButton.disabled = true; // Disable send button
+        }
+
+        // Hide other messages
         successMessage.style.display = "none";
         infoMessage.style.display = "none";
-        return;
-      }
+      });
 
-      // Check if email was sent today
-      const today = new Date().toISOString().split("T")[0]; // Get today's date
-      if (sentEmails[email] === today) {
-        infoMessage.style.display = "block"; // Show duplicate send message
-        successMessage.style.display = "none"; // Hide success message
-        errorMessage.style.display = "none"; // Hide error message
-        return;
-      }
+      /* 
+        1. Always Show Download Button
+      */
+      const downloadvcardBtn = document.getElementById('downloadvcard');
 
-      // Hide other messages
-      errorMessage.style.display = "none";
-      infoMessage.style.display = "none";
+      /* 
+        2. Popup Logic
+      */
+      const overlay = document.getElementById('overlay');
+      const mainPopup = document.getElementById('mainPopup');
+      const emailPopup = document.getElementById('emailPopup');
+      const confirmPhonePopup = document.getElementById('confirmPhonePopup'); // Confirmation dialog
 
-      // Use EmailJS to send email
-      emailjs.send("service_atyduqa", "template_ubf6qdk", {
-        to_email: email,
-        from_name: "Oliver Fang",
-        message: "Here is the vCard contact information you requested.",
-      }).then(
-        function () {
-          successMessage.style.display = "block"; // Show success message
-          sentEmails[email] = today; // Record sent email and date
-          sendButton.disabled = true; // Disable send button
-          emailInput.value = ""; // Clear input field
-        },
-        function (error) {
-          errorMessage.textContent = "Failed to send email. Please try again.";
-          errorMessage.style.display = "block";
-        }
-      );
-    });
+      // Close buttons
+      const mainPopupCloseBtn = document.getElementById('mainPopupCloseBtn');
+      const emailPopupCloseBtn = document.getElementById('emailPopupCloseBtn');
+      const confirmPhoneCloseBtn = document.getElementById('confirmPhoneCloseBtn');
 
-    // Real-time validation logic
-    emailInput.addEventListener("input", function () {
-      const email = emailInput.value.trim();
+      // Remember the last active element to return focus after closing popup
+      let lastActiveElement = null;
 
-      if (!email) {
-        errorMessage.style.display = "none"; // Hide message if input is empty
-        sendButton.disabled = true; // Disable send button
-      } else if (validateEmail(email)) {
-        errorMessage.style.display = "none"; // Hide message if input is valid
-        sendButton.disabled = false; // Enable send button
-      } else {
-        errorMessage.style.display = "block"; // Show error message if input is invalid
-        sendButton.disabled = true; // Disable send button
-      }
+      // Unified open/close functions
+      function openPopup(popup) {
+        lastActiveElement = document.activeElement; // Record current focus
 
-      // Hide other messages
-      successMessage.style.display = "none";
-      infoMessage.style.display = "none";
-    });
+        overlay.classList.add('active');
+        popup.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
 
-    /* 
-      1. Always Show Download Button
-    */
-    const downloadBtn = document.getElementById('downloadBtn');
-    // No device detection code; the button is always visible
-
-    /* 
-      2. Popup Logic
-    */
-    const overlay = document.getElementById('overlay');
-    const popup = document.getElementById('popup');
-    const emailPopup = document.getElementById('emailPopup');
-    const focusTrapIndicator = document.getElementById('focusTrapIndicator');
-
-    // Close buttons
-    const popupCloseBtn = document.getElementById('popupCloseBtn');
-    const emailPopupCloseBtn = document.getElementById('emailPopupCloseBtn');
-
-    // Remember the last active element to return focus after closing popup
-    let lastActiveElement = null;
-
-    // Unified open/close functions
-    function openPopup(targetPopup) {
-      lastActiveElement = document.activeElement; // Record current focus
-
-      overlay.classList.add('active');
-      targetPopup.classList.add('active');
-      overlay.setAttribute('aria-hidden', 'false');
-
-      // Automatically focus the first focusable element inside the popup
-      const firstFocusable = targetPopup.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      if (firstFocusable) {
-        firstFocusable.focus();
-      }
-
-      // Activate focus trap
-      document.addEventListener('keydown', focusTrap);
-      focusTrapIndicator.classList.add('active');
-    }
-    function closePopup(targetPopup) {
-      // For fade-out effect, remove active class first
-      overlay.classList.remove('active');
-      targetPopup.classList.remove('active');
-      overlay.setAttribute('aria-hidden', 'true');
-
-      // Deactivate focus trap
-      document.removeEventListener('keydown', focusTrap);
-      focusTrapIndicator.classList.remove('active');
-
-      // Return focus to the last active element
-      if (lastActiveElement) {
-        lastActiveElement.focus();
-      }
-    }
-
-    // Focus trap function
-    function focusTrap(e) {
-      const activePopup = document.querySelector('.popup.active, .email-popup.active');
-      if (!activePopup) return;
-
-      const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-      const focusableElements = activePopup.querySelectorAll(focusableSelectors);
-      if (!focusableElements.length) return; // No focusable elements
-
-      const firstFocusable = focusableElements[0];
-      const lastFocusable = focusableElements[focusableElements.length - 1];
-
-      // Close popup on Escape key
-      if (e.key === 'Escape') {
-        closePopup(activePopup);
-        return;
-      }
-
-      // Handle Tab key navigation
-      if (e.key === 'Tab') {
-        if (focusableElements.length === 1) {
-          e.preventDefault();
-          return; // Only one focusable element
-        }
-        // Shift + Tab
-        if (e.shiftKey) {
-          if (document.activeElement === firstFocusable) {
-            e.preventDefault();
-            lastFocusable.focus();
-          }
-        }
-        // Tab
-        else {
-          if (document.activeElement === lastFocusable) {
-            e.preventDefault();
-            firstFocusable.focus();
-          }
+        // Automatically focus the first focusable element inside the popup
+        const firstFocusable = popup.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (firstFocusable) {
+          firstFocusable.focus();
         }
       }
-    }
+      function closePopup(popup) {
+        // For fade-out effect, remove active class first
+        overlay.classList.remove('active');
+        popup.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
 
-    /*
-      3. Popup Interaction Logic
-    */
-    const btnCancelPopup = document.getElementById('btnCancelPopup');
-    const btnSaveByEmail = document.getElementById('btnSaveByEmail');
-    const btnSaveToPhone = document.getElementById('btnSaveToPhone');
-
-    // Open primary popup on download button click
-    downloadBtn.addEventListener('click', () => {
-      openPopup(popup);
-    });
-
-    // Close primary popup on close button click
-    popupCloseBtn.addEventListener('click', () => {
-      closePopup(popup);
-    });
-
-    // Close primary popup on cancel button click
-    btnCancelPopup.addEventListener('click', () => {
-      closePopup(popup);
-    });
-
-    // Save to phone logic
-    btnSaveToPhone.addEventListener('click', () => {
-      closePopup(popup);
-      const link = document.createElement('a');
-      link.href = 'https://forest-fr.github.io/oliver-digital-business-card/OliverF.vcf';
-      link.download = 'OliverF.vcf';
-      link.click();
-    });
-
-    // Save to email logic - Open EmailJS popup
-    btnSaveByEmail.addEventListener('click', () => {
-      closePopup(popup);
-      openPopup(emailPopup);
-    });
-
-    /*
-      4. Close EmailJS Popup
-    */
-    emailPopupCloseBtn.addEventListener('click', () => {
-      closePopup(emailPopup);
-    });
-
-    /*
-      5. Click Overlay to Close Any Open Popup
-    */
-    overlay.addEventListener('click', () => {
-      if (popup.classList.contains('active')) {
-        closePopup(popup);
+        // Return focus to the last active element
+        if (lastActiveElement) {
+          lastActiveElement.focus();
+        }
       }
-      if (emailPopup.classList.contains('active')) {
+
+      // Event listeners
+      downloadvcardBtn.addEventListener('click', () => {
+        console.log('Download vCard button clicked');
+        openPopup(mainPopup);
+      });
+
+      mainPopupCloseBtn.addEventListener('click', () => {
+        console.log('Main popup close button clicked');
+        closePopup(mainPopup);
+      });
+
+      document.getElementById('btnCancelPopup').addEventListener('click', () => {
+        console.log('Cancel main popup clicked');
+        closePopup(mainPopup);
+      });
+
+      document.getElementById('btnSaveByEmail').addEventListener('click', () => {
+        console.log('Save by Email clicked');
+        closePopup(mainPopup);
+        openPopup(emailPopup);
+      });
+
+      document.getElementById('btnSaveToPhone').addEventListener('click', () => {
+        console.log('Save to My Phone clicked');
+        closePopup(mainPopup);
+        openPopup(confirmPhonePopup);
+      });
+
+      emailPopupCloseBtn.addEventListener('click', () => {
+        console.log('EmailJS popup close button clicked');
         closePopup(emailPopup);
-      }
-    });
+      });
 
-    /*
-      6. Gmail Email Functionality
-    */
-    const sendGmailLink = document.getElementById('sendGmailLink');
-    sendGmailLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      sendToGmail();
-    });
-    function sendToGmail() {
-      const recipient = 'sales@oliverfr.com';
-      const subject = 'Inquiry about PoE Products';
-      const body = `
+      // Confirm Phone Popup Logic
+      document.getElementById('btnConfirmSendPhone').addEventListener('click', () => {
+        console.log('Confirm sending to phone');
+        // Trigger vCard download
+        const a = document.createElement('a');
+        a.href = 'OliverFang.vcf'; // Ensure this file is in the same directory as this HTML
+        a.download = 'OliverFang.vcf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        closePopup(confirmPhonePopup);
+        alert('vCard已成功下载。');
+      });
+
+      document.getElementById('btnCancelSendPhone').addEventListener('click', () => {
+        console.log('Cancel sending to phone');
+        closePopup(confirmPhonePopup);
+      });
+
+      confirmPhoneCloseBtn.addEventListener('click', () => {
+        console.log('Confirm popup close button clicked');
+        closePopup(confirmPhonePopup);
+      });
+
+      /* 
+        3. Click Overlay to Close Any Open Popup
+      */
+      overlay.addEventListener('click', () => {
+        console.log('Overlay clicked');
+        if (mainPopup.classList.contains('active')) {
+          closePopup(mainPopup);
+        }
+        if (emailPopup.classList.contains('active')) {
+          closePopup(emailPopup);
+        }
+        if (confirmPhonePopup.classList.contains('active')) {
+          closePopup(confirmPhonePopup);
+        }
+      });
+
+      /* 
+        4. Gmail Email Functionality
+      */
+      document.getElementById('sendGmailLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        sendToGmail();
+      });
+      function sendToGmail() {
+        const recipient = 'sales@oliverfr.com';
+        const subject = 'Inquiry about PoE Products';
+        const body = `
 Dear Oliver Fang,
 
 I am interested in your products/services. Please provide more details.
@@ -728,10 +699,12 @@ I am interested in your products/services. Please provide more details.
 Best regards,
 [Your Name]
 [Your Contact Information]
-      `.trim();
-      const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailtoUrl;
-    }
+        `.trim();
+        const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoUrl;
+      }
+
+    });
   </script>
 </body>
 </html>
